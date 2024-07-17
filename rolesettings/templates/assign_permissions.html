@@ -1,0 +1,70 @@
+<!-- templates/assign_permissions.html -->
+
+
+
+  <!-- <h1>Assign Permissions to Role</h1>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Assign</button>
+  </form>  -->
+
+  <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Role Permission Form</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.role.label_tag }} {{ form.role }}
+        <br>
+        <div class="row">
+            <div id="permission-groups" class="col-md-6">
+                {% for group, permissions in form.permission_groups.items %}
+                    <div class="permission-group">
+                        <label>
+                            <input type="checkbox" class="group-checkbox" data-permissions="{{ permissions|join:',' }}">
+                            {{ group }}
+                        </label>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="col-md-6">
+                <div>
+                    {{ form.permissions.label_tag }}
+                    {{ form.permissions }}
+                </div>
+            </div>
+        </div>
+        
+        <button type="submit">Submit</button>
+    </form>
+
+    <script>
+        $(document).ready(function(){
+            $('.group-checkbox').on('change', function(){
+                var permissions = $(this).data('permissions').toString().split(',');
+                var isChecked = $(this).is(':checked');
+                permissions.forEach(function(permissionId) {
+                    $('input[name="permissions"][value="' + permissionId + '"]').prop('checked', isChecked);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
+
+   
+    
+  
+
+
+  
+  
+
+  
+

@@ -1,0 +1,118 @@
+{%extends 'base.html'%}
+{%block change_block%}
+                   
+                    {%endblock%}
+{%block link_block%}
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f2f5;
+        color: #333;
+        margin: 0;
+        padding: 0;
+    }
+    .calendar-container {
+        max-width: 1000px;
+        /* margin: 50px auto;
+        padding: 20px; */
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .calendar-title {
+        text-align: center;
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+    }
+    th, td {
+        width: 14.28%;
+        border: 1px solid #ddd;
+        padding: 10px;
+        text-align: center;
+        vertical-align: top;
+    }
+    th {
+        background-color: #f4f4f4;
+    }
+    .present {
+        background-color: #c3e6cb; /* Bright green */
+        color: #1df850; /* Dark green text */
+    }
+    .absent {
+        background-color: #f8d7da; /* Bright red */
+        color: #fc2238; /* Dark red text */
+    }
+    .other-month {
+        color: #bbb;
+    }
+    .legend {
+        text-align: center;
+    }
+    .legend span {
+        margin-right: 20px;
+    }
+    .legend .present::before {
+        content: '✓';
+        color: #13ee46; /* Dark green */
+        margin-right: 5px;
+    }
+    .legend .absent::before {
+        content: '*';
+        color: #eb152a; /* Dark red */
+        margin-right: 5px;
+    }
+    .form-container {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    
+   
+</style>
+  {%endblock%}
+{% block content_block %}
+<div class="main-content mt-2 ">
+    <div class="calendar-container ms-5">
+        <h1 class="calendar-title">  {{ current_month }}</h1>
+        <div class="form-container">
+            <form method="post">
+                {% csrf_token %}
+                {{ form.year }} {{ form.month }}
+                <button type="submit" class="btn btn-primary">Search</button>
+            </form>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Sun</th>
+                    <th>Mon</th>
+                    <th>Tue</th>
+                    <th>Wed</th>
+                    <th>Thu</th>
+                    <th>Fri</th>
+                    <th>Sat</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for week in month_days %}
+                <tr>
+                    {% for day in week %}
+                    <td class="{% if day in presence_dict %}present{% else %}absent{% endif %} {% if day.month != current_month %}other-month{% endif %}">
+                        {{ day.day }}
+                    </td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="legend">
+            <span class="present">Present</span>
+            <span class="absent">Absent</span>
+        </div>
+    </div> 
+</div>
+{% endblock %}

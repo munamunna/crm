@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Ticket - {{ ticket.registration_number }}</title>
+</head>
+<body>
+    <h1>Edit Ticket</h1>
+    
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Save changes</button>
+        <a href="{% url 'tickets' %}">Cancel</a>
+    </form>
+</body>
+</html>

@@ -1,0 +1,302 @@
+<!-- <!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Ticket - {{ complaint.registration_number }}</title>
+</head>
+<body>
+    <h1>Edit Ticket</h1>
+    
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Save changes</button>
+        <a href="{% url 'complaintlist' %}">Cancel</a>
+    </form>
+</body>
+</html> -->
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Ticket - {{ complaint.registration_number }}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'css/leadlist.css' %}">
+    <style>
+        
+         .timelinesec .heading h1{
+    /* color:black; */
+    font-size: 15px;
+    font-weight: 500;
+}
+.text-muted {
+    color: #6c757d !important;
+}
+ 
+.timelinesec .content .elements .verticalline{
+    border-left: 1px solid #a1a1a1;
+    height: 50px;
+    margin-left: 12px;
+    margin-right: 12px;
+}
+.timelinesec .content .badgeline{
+    border-radius: 100%;
+    border:2px solid #14ceca ;
+    height: 25px;
+    width: 25px;
+}
+.timelinesec .content .card{
+    /* background-color: #1a1a1a; */
+    margin-left:-50px ;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.timelinesec .content .card .card-body h5{
+    color: #14ceca ;
+    font-size: 15px;
+
+}
+.timelinesec .content .card .card-body h4{
+    font-size: 15px;
+    color: #fafafa;
+}
+.timelinesec .content .card .card-body p{
+    color: #6c756c;
+    font-size: 16px;
+    margin-top: 3px;
+}
+.badge-prio{
+
+background-color:navy; /* Yellow for incomplete */
+        border-radius: 12px;
+        padding: 0.5em 0.75em;
+}
+.custom-img-size {
+    width: 200px;
+    height: auto;
+}
+    </style>
+    <style>
+        .badge-unassigned{
+        background-color:purple; /* Yellow for incomplete */
+            border-radius: 12px;
+            padding: 0.5em 0.75em;
+      }
+    .badge-prio{
+    
+    background-color:navy; /* Yellow for incomplete */
+            border-radius: 12px;
+            padding: 0.5em 0.75em;
+    }
+        .badge-open {
+            background-color: #ffc107; /* Yellow for incomplete */
+            border-radius: 12px;
+            padding: 0.5em 0.75em;
+        }
+        .badge-assigned {
+            background-color: #17a2b8; /* Blue for in progress */
+            border-radius: 12px;
+            padding: 0.5em 0.75em;
+        }
+        .badge-pending {
+            background-color:blue; /* Green for completed */
+            border-radius: 12px;
+            padding: 0.5em 0.75em;
+        }
+        .badge-progress {
+            background-color:orangered; /* Green for completed */
+            border-radius: 12px;
+            padding: 0.5em 0.75em;
+        }
+        .badge-closed {
+            background-color:red; /* Green for completed */
+            border-radius: 12px;
+            padding: 0.5em 0.75em;
+        }
+        .badge-resolved {
+            background-color:green; /* Green for completed */
+            border-radius: 12px;
+            padding: 0.5em 0.75em;
+        }
+      </style>
+</head>
+<body>
+  
+
+    <!-- navbar start -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light shadow">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#"></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                </ul>
+                <form class="d-flex">
+                    <i class="material-icons star-icon me-2 orng-icon" data-bs-toggle="tooltip" title="Favorite">&#xE838;</i>
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-orange" type="submit">Search</button>
+                </form>
+                <button type="button" class="add-user btn custombtn mr-2 ms-2" name="add-user"><i class="fas fa-file-import"></i></button>
+                <button type="button" class="add-user btn btn-dark mr-2 ms-2" name="add-user"><i class="fas fa-cog"></i></button>
+                <button type="button" class="add-user btn btn-dark mr-2 ms-2" name="add-user"><i class="fas fa-copy"></i></button>
+                <button class="btn btn-danger add-user mr-2 ms-2" id="closeButton">close</button>
+                <a href="{%url 'complaintlist'%}" class="btn btn-warning add-user mr-2 ms-2" id="">previous</a>
+            </div>
+        </div>
+    </nav>
+    <!-- top navbar end -->
+
+    <div class="container shadow">
+        <div class="row p-5">
+            <div class="col-sm-6">
+                <div class="card">
+                    <div class="d-flex flex-row">
+                        <img src="{% static 'images/Profile.jpg' %}" alt="Static Logo" class="img-fluid custom-img-size me-3">
+                        <div class="card-body">
+                            <h2 class="card-title">{{ complaint.requester_name }}</h2>
+                            <ul class="list-unstyled">
+                                <li><strong>Assign To:</strong> <span>{{ complaint.assign_to.first_name }}</span></li>
+                                <li><strong>Priority:</strong><span class="badge badge-prio mb-2">{{ complaint.get_priority_display }}</span></li>
+                                <li><strong>Status:</strong> {% if complaint.status == 'open' %}
+                                    <span class="badge badge-open">{{ complaint.get_status_display }}</span>
+                                    {% elif complaint.status == 'assigned' %}
+                                    <span class="badge badge-assigned">{{ complaint.get_status_display }}</span>
+                                    {% elif complaint.status == 'unassigned' %}
+                                    <span class="badge badge-unassigned">{{ complaint.get_status_display }}</span>
+                                    {% elif complaint.status == 'in_progress' %}
+                                    <span class="badge badge-progress">{{ complaint.get_status_display }}</span>
+                                    {% elif complaint.status == 'pending' %}
+                                    <span class="badge badge-pending">{{ complaint.get_status_display }}</span>
+                                    {% elif complaint.status == 'resolved' %}
+                                    <span class="badge badge-resolved">{{ complaint.get_status_display }}</span>
+                                    {% elif complaint.status == 'closed' %}
+                                    <span class="badge badge-closed">{{ complaint.get_status_display }}</span>
+                                    {% endif %}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+
+            <div class="col-sm-5">
+                <div class="card">
+                    <div class="card-body">
+                     
+                        <h5>Edit Ticket</h5>
+    
+                        <form method="post">
+                            {% csrf_token %}
+                            {{ form.as_p }}
+                            <button class="btn-success" type="submit">Save changes</button>
+                            <!-- <a href="{% url 'complaintlist' %}">Cancel</a> -->
+                        </form>
+                    </div>
+                </div>
+            </div>
+          
+    </div>
+    <hr>
+
+<!-- {% if remarks %}
+    <h3>Remarks:</h3>
+    <ul>
+        {% for remark in remarks %}
+            <li>{{ remark.remark }} - {{ remark.author.first_name }} on {{ remark.created_at }}</li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No remarks yet.</p>
+{% endif %}
+
+<form method="post" action="{% url 'add_remark' complaint.pk %}">
+    {% csrf_token %}
+    <textarea name="remark" placeholder="Add a remark"></textarea>
+    <button type="submit">Add Remark</button>
+</form> -->
+
+    <!-- Display lead details here -->
+    <!-- Timeline -->
+<!-- <div class="container timelinesec">
+    <div class="row heading">
+        <div class="col-lg-12">
+            <h1 class="text-muted mt-2"> Recent Activities</h1>
+        </div>
+    </div> -->
+    <!-- timeline1 -->
+   
+    <div class="row content mt-2">
+        <div class="col-lg-1 elements">
+            <div class="verticalline"></div>
+            <div class="badgeline mt-2  mb-2"></div>
+            <div class="verticalline"></div>
+        </div>
+        <div class="col-8">
+            <div class="card shadow">
+                <div class="card-body">
+                    <div class="card-body">
+                        <form method="post" action="{% url 'add_remark' complaint.pk %}">
+                            {% csrf_token %}
+                            <textarea name="remark" placeholder="Add a remark"></textarea>
+                            <button type="submit">Add Remark</button>
+                        </form>
+                        <div class="task-details">
+                            {% if remarks %}
+                            <h3>Remarks:</h3>
+                            <ul>
+                                {% for remark in remarks %}
+                                    <li>{{ remark.remark }} - {{ remark.author.first_name }} on {{ remark.created_at }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% else %}
+                            <p>No remarks yet.</p>
+                        {% endif %} 
+                        </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- timeline1 end -->
+  
+    
+  </div>
+  <!-- end Timeline-->
+
+
+
+
+    <script>
+        function toggleTasks() {
+            var tasksCard = document.getElementById("tasksCard");
+            if (tasksCard.style.display === "none") {
+                tasksCard.style.display = "block";
+            } else {
+                tasksCard.style.display = "none";
+            }
+        }
+
+        function toggleCalendar() {
+            var calendarCard = document.getElementById("calendarCard");
+            if (calendarCard.style.display === "none") {
+                calendarCard.style.display = "block";
+            } else {
+                calendarCard.style.display = "none";
+            }
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+    <script>
+        document.getElementById('closeButton').addEventListener('click', function() {
+            window.location.href = '/';
+        });
+    </script>
+</body>
+</html>

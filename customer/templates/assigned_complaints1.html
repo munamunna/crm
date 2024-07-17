@@ -1,0 +1,148 @@
+{%extends 'base.html'%}
+
+{%block change_block%}
+                   
+                    {%endblock%}
+                    {%block link_block%}
+                    <style>
+                        .badge-unassigned{
+                        background-color:purple; /* Yellow for incomplete */
+                            border-radius: 12px;
+                            padding: 0.5em 0.75em;
+                      }
+                    .badge-prio{
+                    
+                    background-color:navy; /* Yellow for incomplete */
+                            border-radius: 12px;
+                            padding: 0.5em 0.75em;
+                    }
+                        .badge-open {
+                            background-color: #ffc107; /* Yellow for incomplete */
+                            border-radius: 12px;
+                            padding: 0.5em 0.75em;
+                        }
+                        .badge-assigned {
+                            background-color: #17a2b8; /* Blue for in progress */
+                            border-radius: 12px;
+                            padding: 0.5em 0.75em;
+                        }
+                        .badge-pending {
+                            background-color:blue; /* Green for completed */
+                            border-radius: 12px;
+                            padding: 0.5em 0.75em;
+                        }
+                        .badge-progress {
+                            background-color:orangered; /* Green for completed */
+                            border-radius: 12px;
+                            padding: 0.5em 0.75em;
+                        }
+                        .badge-closed {
+                            background-color:red; /* Green for completed */
+                            border-radius: 12px;
+                            padding: 0.5em 0.75em;
+                        }
+                        .badge-resolved {
+                            background-color:green; /* Green for completed */
+                            border-radius: 12px;
+                            padding: 0.5em 0.75em;
+                        }
+                      </style>
+                    {%endblock%}
+
+                    {% block content_block %}
+                    <div class="main-content mt-2">
+                        <div class="row">
+                            <div class="col-md-12">
+                              <div class="table-responsive">
+                                <table class="table table-striped">
+                                  <thead>
+                                    <tr>
+                                      <th></th>
+                                      <th></th>
+                                      <th>Person Type</th>
+                                      <th>Requester Name</th>
+                                      
+                                      <th>Complaint</th>
+                                      <th>Status</th>
+                                      <th>Priority</th>
+                                      <th>ticket number</th>
+                                      <th>Assigned To</th>
+                                     
+                                      <th></th>
+                                      
+                                      <!-- <th>Actions</th> -->
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    <tr>
+                                        {% for complaint in complaints %}
+                        
+                                      <td>
+                                        <span class="custom-checkbox">
+                                          <input type="checkbox" id="checkbox1" name="option[]" value="1">
+                                          <label for="checkbox1"></label>
+                                        </span>
+                                      </td>
+                                      <td>
+                                        <a href="#" type="button"><i class="material-icons star-icon orng-icon"  data-bs-toggle="tooltip" title="Favorite">&#xE838;</i></a>
+                                        
+                                      </td>
+                                      <td>{{ complaint.person_type }}</td>
+                                      <td>{{ complaint.requester_name }}</td>
+                                      
+                                      <td>{{ complaint.complaint }}</td>
+                                      <td>
+                                        {% if complaint.status == 'open' %}
+                                        <span class="badge badge-open">{{ complaint.get_status_display }}</span>
+                                        {% elif complaint.status == 'assigned' %}
+                                        <span class="badge badge-assigned">{{ complaint.get_status_display }}</span>
+                                        {% elif complaint.status == 'unassigned' %}
+                                        <span class="badge badge-unassigned">{{ complaint.get_status_display }}</span>
+                                        {% elif complaint.status == 'in_progress' %}
+                                        <span class="badge badge-progress">{{ complaint.get_status_display }}</span>
+                                        {% elif complaint.status == 'pending' %}
+                                        <span class="badge badge-pending">{{ complaint.get_status_display }}</span>
+                                        {% elif complaint.status == 'resolved' %}
+                                        <span class="badge badge-resolved">{{ complaint.get_status_display }}</span>
+                                        {% elif complaint.status == 'closed' %}
+                                        <span class="badge badge-closed">{{ complaint.get_status_display }}</span>
+                                        {% endif %}
+                                    </td>
+                                      <td>{{ complaint.priority }}</td>
+                                      <td>{{complaint.registration_number}}</td>
+                                      <!-- <td>{{complaint.assign_to.first_name}}</td> -->
+                                     
+                                      <td>
+                                        {% if complaint.assign_to %}
+                                          <span class="">{{ complaint.assign_to.first_name }}</span>
+                                        {% else %}
+                                          unassigned
+                                        {% endif %}
+                                      </td>
+                                      
+                                      <td>
+                                        
+                                        
+                            <a href="{% url 'complaint_edit' complaint.id %}" class="edit">
+                                <i class="fas fa-edit orng-icon" data-bs-toggle="tooltip" title="Edit"></i>
+                            </a>
+                        
+                        
+                                        <a href="#" class="whatsapp" data-bs-toggle="modal"><i class="fab fa-whatsapp green-icon" data-bs-toggle="tooltip" title="WhatsApp"></i></a>
+                                        
+                                        
+                                        
+                                        
+                                      </td>
+                                      
+                                      
+                                    </tr>
+                                    {%endfor%}
+                        
+                                  </tbody>
+                                </table>
+                              </div>
+                            </div>
+                          </div>  
+                    </div>
+                    {% endblock %}

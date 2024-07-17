@@ -1,0 +1,273 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Navbar and Sidebar</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="{% static 'css/index.css' %}">
+  <style>
+    /* Custom CSS for sidebar and dropdown */
+    .sidebar {
+        background-color: #2c3e50; /* Adjust background color if needed */
+        padding: 10px;
+    }
+
+    .sidebar .dropdown-toggle .fas.fa-caret-down {
+            margin-left: 120px;
+            /* Adjust margin as needed */
+        }
+
+    .sidebar a,
+    .sidebar .btn.dropdown-toggle {
+        color: #b0b0b0; /* Light color for sidebar links and dropdown button */
+        text-decoration: none;
+    }
+
+    .sidebar a:hover,
+    .sidebar a:focus,
+    .sidebar .btn.dropdown-toggle:hover,
+    .sidebar .btn.dropdown-toggle:focus {
+        color: #fff; /* White color on hover */
+    }
+
+    .dropdown-menu {
+        display: none;
+        position: relative;
+        background-color: #2c3e50; /* Change this to the desired background color */
+        color: #fff; /* Change text color if needed */
+        margin-top: 0.5rem;
+        width: 100%;
+        padding: 0; /* Remove padding */
+    }
+
+    .dropdown-menu.show {
+        display: block;
+    }
+
+    .dropdown-item {
+        display: block;
+        width: 100%;
+        padding: 0.5rem 1rem;
+        font-weight: 400;
+        color: #b0b0b0; /* Light color for dropdown items */
+        background-color: #2c3e50; /* Change this to match the dropdown background */
+        border: 0;
+    }
+
+    .dropdown-item:hover,
+    .dropdown-item:focus {
+        color: #fff;
+        text-decoration: none;
+        background-color: #444; /* Slightly lighter background on hover */
+    }
+
+    .sidebar .dropdown-toggle {
+        display: flex;
+        justify-content: space-between;
+        /* Align button text and icon */
+        align-items: center;
+        /* Vertically center items */
+        background-color: transparent;
+        /* Remove background color */
+        border: none;
+        /* Remove border */
+    }
+
+    /* Hide text by default */
+    .hidden {
+        display: none;
+    }
+
+    /* Custom styles for horizontal line */
+    .sidebar hr {
+        border: 0;
+        height: 1px;
+        background: #555; /* Adjust color of the line */
+        margin: 10px 0; /* Adjust spacing around the line */
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Sidebar -->
+  <div class="sidebar shadow" id="sidebar">
+    <a href="#" onclick="toggleSidebar()">
+      <i class="fas fa-chevron-right"></i> <span class="mt-2">Toggle Sidebar</span>
+    </a>
+    <hr>
+    <a href="#" onclick="toggleSidebar()" data-toggle="tooltip" title="Dashboard"><i class="fas fa-th mt-2"></i> <span class="mt-2">Dashboard</span></a>
+    <hr>
+    <a href="{% url 'list' %}" data-toggle="tooltip" title="Lead"><i class="fas fa-ticket-alt"></i>  <span>Lead</span></a>
+    <hr>
+    <a href="{% url 'clist' %}" data-toggle="tooltip" title="Customer"><i class="fas fa-user"></i> <span>Customer</span></a>
+    <hr>
+    <!-- <a href="{% url 'tickets' %}" data-toggle="tooltip" title="Support Ticket">
+      <i class="fas fa-life-ring"></i> <span>Support Ticket</span>
+    </a>
+    <hr> -->
+    <!-- Dropdown menu -->
+    <div class="dropdown">
+        <button class="btn dropdown-toggle" type="button" id="sidebarDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="fas fa-users me-2"></i>
+
+          <span class="hidden" id="activitiesText">HR</span>
+          <i class="fas fa-caret-down"></i>
+        </button>
+        <div class="dropdown-menu" aria-labelledby="sidebarDropdown">
+          <a class="dropdown-item" href="#">Leaves</a>
+          <a class="dropdown-item" href="{% url 'calendar_view' %}">Attendance</a>
+          <a class="dropdown-item" href="#">Holiday</a>
+        </div>
+    </div>
+    <hr>
+    <a href="{% url 'generalsettings' %}" data-toggle="tooltip" title="Settings"><i class="fas fa-cog"></i> <span>Settings</span></a>
+    <hr>
+    <a href="{% url 'logout' %}" data-toggle="tooltip" title="Logout"><i class="fas fa-sign-out-alt"></i> <span>Logout</span></a>
+  </div>
+
+  <!-- Top Navbar -->
+  <nav class="navbar content" id="top-navbar">
+    <div class="container-fluid">
+      <a href="#">Dashboard</a>
+      <form class="d-flex">
+        <button class="btn btn-outline-success " type="submit"><i class="fas fa-search"></i></button>
+        <button class="btn btn-outline-primary ms-2" type="button"><i class="fas fa-plus"></i></button>
+        <button class="btn btn-outline-info ms-2" type="button"><i class="fas fa-file"></i></button>
+        <button class="btn btn-outline-danger ms-2" type="button"><i class="fas fa-power-off"></i></button>
+        <button class="btn btn-outline-warning ms-2" type="button"><i class="fas fa-bell"></i></button>
+        {% if user.is_authenticated %}
+          <button class="btn"><img src="{{ user.profile_pic.url }}" width="30" class="user-img rounded-circle mr-2">
+          <span class="ms-2">{{ user.first_name }}</span></button>
+        {% endif %}
+      </form>
+    </div>
+  </nav>
+
+  <div class="content mt-4" id="content">
+    <!-- Display Messages -->
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">
+          {{ message }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      {% endfor %}
+    {% endif %}
+
+    <div class="row">
+        <div class="d-flex justify-content-between align-items-center">
+            <h1 class="mb-0">Welcome</h1>
+            <form id="clockForm" method="post" action="{% url 'clock_in' %}">
+                {% csrf_token %}
+                {% if already_clocked_in %}
+                    <button type="submit" class="btn btn-danger" id="clockBtn">Clock Out</button>
+                {% elif already_clocked_out %}
+                    <button type="button" class="btn btn-secondary" id="clockBtn" disabled>Already Clocked Out</button>
+                {% else %}
+                    <button type="submit" class="btn btn-primary" id="clockBtn">Clock In</button>
+                {% endif %}
+            </form>
+        </div>
+        
+
+      <div class="col-md-4">
+        <!-- First Column with One Card -->
+        <div class="card d-flex flex-row align-items-center">
+          <img class="img-fluid w-25 d-block" src="https://www.gravatar.com/avatar/ef5872f921116f01d45118977f2ef455.png?s=200&amp;d=mp" alt="Card image">
+          <div class="ml-3">
+            <h5 class="card-title">{{ request.user.first_name }}</h5>
+            <p class="card-text">This is the content of the first card.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-8">
+        <div class="row">
+          <!-- Second Column with Two Cards -->
+          <div class="col-md-6">
+            <div class="card mb-3">
+              <div class="card-body">
+                <h5 class="card-title">Tasks</h5>
+                <h6 class="card-subtitle mb-2 mt-2  navy-text">{{user_task_count}}</h6>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="card mb-3">
+              <div class="card-body">
+                <h5 class="card-title"> Complaints</h5>
+            <h6 class="card-subtitle mb-2 mt-2  navy-text">{{user_complaint_count}}</h6>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS and jQuery -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+
+  <script>
+    function toggleSidebar() {
+        
+      var sidebar = document.getElementById("sidebar");
+      var activitiesText = document.getElementById("activitiesText");
+      var content = document.getElementById("content");
+      
+
+      sidebar.classList.toggle("active");
+      content.classList.toggle("active");
+
+      if (sidebar.classList.contains("active")) {
+        activitiesText.classList.remove("hidden");
+      } else {
+        activitiesText.classList.add("hidden");
+      }
+    }
+
+    $(document).ready(function() {
+        $('#clockForm').on('submit', function(event) {
+            event.preventDefault();
+            var form = $(this);
+            $.ajax({
+                type: form.attr('method'),
+                url: form.attr('action'),
+                data: form.serialize(),
+                dataType: 'json',
+                success: function(data) {
+                    if (data.status === 'clocked_in') {
+                        $('#clockBtn').removeClass('btn-primary').addClass('btn-danger').text('Clock Out');
+                    } else if (data.status === 'clocked_out') {
+                        $('#clockBtn').removeClass('btn-danger').addClass('btn-primary').text('Clock In');
+                    } else if (data.status === 'already_clocked_out') {
+                        $('#clockBtn').removeClass('btn-danger').addClass('btn-secondary').text('Already Clocked Out').prop('disabled', true);
+                    }
+                    
+                    // Display messages if available
+                    if (data.message) {
+                        var alertDiv = $('<div class="alert alert-' + data.message.tags + '">' + data.message.text + '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
+                        $('#content').prepend(alertDiv);
+                        setTimeout(function() {
+                            alertDiv.remove();
+                        }, 5000);  // Remove alert after 5 seconds
+                    }
+                },
+                error: function(xhr, errmsg, err) {
+                    console.log(xhr.status + ": " + xhr.responseText); // Log any errors to console
+                }
+            });
+        });
+    });
+  </script>
+</body>
+</html>

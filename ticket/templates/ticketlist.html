@@ -1,0 +1,175 @@
+{% load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+     <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link rel="stylesheet" href="{%static 'general.css'%}">
+  <style>
+    /* Ensure the card is hidden initially */
+    #settingsCard {
+        display: none;
+    }
+</style>
+<style>
+  .badge-unassigned{
+    background-color:purple; /* Yellow for incomplete */
+        border-radius: 12px;
+        padding: 0.5em 0.75em;
+  }
+.badge-prio{
+
+background-color:navy; /* Yellow for incomplete */
+        border-radius: 12px;
+        padding: 0.5em 0.75em;
+}
+    .badge-open {
+        background-color: #ffc107; /* Yellow for incomplete */
+        border-radius: 12px;
+        padding: 0.5em 0.75em;
+    }
+    .badge-assigned {
+        background-color: #17a2b8; /* Blue for in progress */
+        border-radius: 12px;
+        padding: 0.5em 0.75em;
+    }
+    .badge-pending {
+        background-color:blue; /* Green for completed */
+        border-radius: 12px;
+        padding: 0.5em 0.75em;
+    }
+    .badge-progress {
+        background-color:orangered; /* Green for completed */
+        border-radius: 12px;
+        padding: 0.5em 0.75em;
+    }
+    .badge-closed {
+        background-color:red; /* Green for completed */
+        border-radius: 12px;
+        padding: 0.5em 0.75em;
+    }
+    .badge-resolved {
+        background-color:green; /* Green for completed */
+        border-radius: 12px;
+        padding: 0.5em 0.75em;
+    }
+  </style>
+</head>
+<body>
+    <!-- Sidebar -->
+  <div class="sidebar shadow" id="sidebar">
+    <a href="{% url 'index' %}" onclick="toggleSidebar()" data-toggle="tooltip" title="Dashboard"><i class="fas fa-th mt-2"></i> <span class="mt-2">Dashboard</span></a>
+    <a href="{% url 'list' %}" data-toggle="tooltip" title="Lead"><i class="fas fa-ticket-alt"></i>  <span>Lead</span></a>
+    <a href="{% url 'clist' %}" data-toggle="tooltip" title="Profile"><i class="fas fa-user"></i> <span>Customer</span></a>
+    
+  
+  
+    <a href="{% url 'generalsettings' %}" id="settingsLink" data-toggle="tooltip" title="Settings"><i class="fas fa-cog"></i> <span>Settings</span></a>
+    <a href="#" data-toggle="tooltip" title="Logout"><i class="fas fa-sign-out-alt"></i> <span>Logout</span></a>
+  </div> 
+
+  <!-- top Navbar -->
+  
+
+  <nav class="navbar   content" id="top-navbar">
+    <div class="container-fluid">
+      <a  href="#">Dashbord</a>
+      <form class="d-flex">
+        <button class="btn btn-outline-success " type="submit"><i class="fas fa-search"></i></button>
+        <button class="btn btn-outline-primary ms-2" type="button"><i class="fas fa-plus"></i></button>
+        <button class="btn btn-outline-info ms-2" type="button"><i class="fas fa-file"></i></button>
+        <button class="btn btn-outline-danger ms-2" type="button"><i class="fas fa-power-off"></i></button>
+        <button class="btn btn-outline-warning ms-2" type="button"><i class="fas fa-bell"></i></button>
+      </form>
+    </div>
+  </nav>
+
+  <div class=" mc shadow"> 
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">Tickets</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              
+              
+              
+            </ul>
+            
+            <a href="{% url 'tickets_create' %}" class="btn btn-info me-2" role="button">Add Ticket</button>
+            <a href="#" class="btn btn-success" role="button">Export</a>
+
+              
+            
+          </div>
+        </div>
+      </nav>
+  </div>
+
+
+  <div class="card mc">
+    
+    <div class="card-body">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Token Number</th>
+                    <th>Requester Name</th>
+                    <th>Assigned To</th>
+                    <th>Priority</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for ticket in tickets %}
+                <tr>
+                  <td><a href="{%url 'ticket_detail' ticket.id %}">{{ ticket.registration_number }}</a></td>
+                    <!-- <td>{{ ticket.registration_number }}</td> -->
+                    <td>{{ ticket.requester_name }}</td>
+                    <!-- <td>{{ ticket.assign_to.first_name }}</td> -->
+                    <td>
+                      {% if ticket.assign_to %}
+                        <span class="badge badge-unassigned">{{ ticket.assign_to.first_name }}</span>
+                      {% else %}
+                        unassigned
+                      {% endif %}
+                    </td>
+                    
+                    
+                   <td><span class=" badge badge-prio">{{ ticket.get_priority_display }}</td>
+                    
+                    <!-- <td>{{ ticket.get_status_display }}</td> -->
+                    <td>
+                        {% if ticket.status == 'open' %}
+                        <span class="badge badge-open">{{ ticket.get_status_display }}</span>
+                        {% elif ticket.status == 'assigned' %}
+                        <span class="badge badge-assigned">{{ ticket.get_status_display }}</span>
+                        {% elif ticket.status == 'unassigned' %}
+                        <span class="badge badge-unassigned">{{ ticket.get_status_display }}</span>
+                        {% elif ticket.status == 'in_progress' %}
+                        <span class="badge badge-progress">{{ ticket.get_status_display }}</span>
+                        {% elif ticket.status == 'pending' %}
+                        <span class="badge badge-pending">{{ ticket.get_status_display }}</span>
+                        {% elif ticket.status == 'resolved' %}
+                        <span class="badge badge-resolved">{{ ticket.get_status_display }}</span>
+                        {% elif ticket.status == 'closed' %}
+                        <span class="badge badge-closed">{{ ticket.get_status_display }}</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {%endfor%}
+                <!-- Additional rows as needed -->
+            </tbody>
+        </table>
+    </div>
+</div>
+  
+</body>
+</html>

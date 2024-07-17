@@ -1,0 +1,67 @@
+.sidebar {
+    height: 100%;
+    width: 50%; /* Initial width */
+    position: fixed;
+    top: 0;
+    left: 0;
+    
+    background-color: #2a3542;
+    overflow-x: hidden; 
+    
+    padding-top: 50px;
+    z-index: 1;
+    
+    
+  }
+  
+  #sidebar a i {
+    
+    color: #fff;
+    
+    
+  }
+  .sidebar {
+    width: 200px;
+}
+.sidebar a {
+    display: flex;
+    align-items: center; /* Align items vertically centered */
+    padding: 10px;
+    text-decoration: none;
+    color: inherit;
+}
+.sidebar a i {
+    margin-right: 10px; /* Add some space between the icon and the text */
+}
+.sidebar a span {
+    display: block;
+    color: #fff;
+}
+
+  
+  .navbar {
+    background-color: #fff;
+   
+    padding: 10px 20px;
+    color: black;
+    
+  }
+  .mc{
+    margin-left: 200px;
+    /* border: 1px solid red; */
+
+  }
+  .task-list {
+    max-width: 500px;
+    margin: 20px auto;
+}
+.task-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+ 

@@ -1,0 +1,89 @@
+
+
+h3{
+    margin: 20px;
+    }
+    
+    
+    
+    .custombtn{
+        background-color: orange;
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    .btn-prim {
+        background-color: black;
+        border: none; /* Remove border for cleaner look */
+    }
+    .material-icons {
+        color: red; /* Color of the icon */
+    }
+    
+    
+    
+    
+    .custom-checkbox label {
+        display: inline-block;
+        position: relative;
+        padding-left: 8px; /* Space for the custom checkbox */
+        cursor: pointer;
+    }
+    #mainContent {
+        background-color: white; /* Set the background color to transparent */
+    }
+    .pagination {
+        background-color: white; /* Set the background color to transparent */
+    }
+    .table-wrapper table thead {
+        background-color: transparent;
+      }
+    
+      .btn-outline-orange {
+        color: #FFA500; /* Orange color */
+        border-color: #FFA500; /* Orange color */
+    }
+    
+    .btn-outline-orange:hover {
+        color: #fff; /* Change text color to white on hover */
+        background-color: #FFA500; /* Orange color on hover */
+        border-color: #FFA500; /* Orange color on hover */
+    }
+    
+    .green-icon {
+      color: #00FF00; /* Green color */
+    }
+    .orng-icon{
+      color: #FFA500;
+    }
+    
+      /* Make table responsive */
+    .table-responsive {
+        overflow-x: auto;
+      }
+      
+      /* Adjust margins for responsiveness */
+      @media (max-width: 768px) {
+        .table-responsive {
+          margin-bottom: 15px;
+          overflow-y: hidden;
+          -ms-overflow-style: -ms-autohiding-scrollbar;
+          border: 1px solid #ddd;
+          border-radius: 4px;
+        }
+      }
+      
+    
+    

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User Presence for {{ month }}/{{ year }}</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 10px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>User Presence for {{ month }}/{{ year }}</h1>
+    <form method="get" action="">
+        <label for="month">Month:</label>
+        <select id="month" name="month">
+            {% for m in "January,February,March,April,May,June,July,August,September,October,November,December" %}
+                {% with forloop.counter as month_number %}
+                    <option value="{{ month_number }}" {% if month_number == month|add:"0" %}selected{% endif %}>{{ m }}</option>
+                {% endwith %}
+            {% endfor %}
+        </select>
+        <label for="year">Year:</label>
+        <input type="text" id="year" name="year" value="{{ year }}" />
+        <button type="submit">Search</button>
+    </form>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>User</th>
+                {% for date in dates %}
+                    <th>{{ date|date:"d M Y" }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for user, presence_status in user_presence_status.items %}
+                <tr>
+                    <td>{{ user.username }}</td>
+                    {% for presence in presence_status %}
+                        <td>{{ presence|yesno:"✔,*" }}</td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

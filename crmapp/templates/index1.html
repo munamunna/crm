@@ -1,0 +1,383 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sidebar with Dropdown</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
+    <style>
+        /* Custom CSS for sidebar and dropdown */
+        .sidebar {
+            background-color: #2c3e50; /* Adjust background color if needed */
+            padding: 10px;
+        }
+
+        .sidebar a,
+        .sidebar .btn.dropdown-toggle {
+            color: #b0b0b0; /* Light color for sidebar links and dropdown button */
+            text-decoration: none;
+        }
+
+        .sidebar a:hover,
+        .sidebar a:focus,
+        .sidebar .btn.dropdown-toggle:hover,
+        .sidebar .btn.dropdown-toggle:focus {
+            color: #fff; /* White color on hover */
+        }
+
+        .dropdown-menu {
+            display: none;
+            position: relative;
+            background-color: #333; /* Change this to the desired background color */
+            color: #fff; /* Change text color if needed */
+            margin-top: 0.5rem;
+            width: 100%;
+            padding: 0; /* Remove padding */
+        }
+
+        .dropdown-menu.show {
+            display: block;
+        }
+
+        .dropdown-item {
+            display: block;
+            width: 100%;
+            padding: 0.5rem 1rem;
+            font-weight: 400;
+            color: #b0b0b0; /* Light color for dropdown items */
+            background-color: #2c3e50; /* Change this to match the dropdown background */
+            border: 0;
+        }
+
+        .dropdown-item:hover,
+        .dropdown-item:focus {
+            color: #fff;
+            text-decoration: none;
+            background-color: #444; /* Slightly lighter background on hover */
+        }
+
+        .sidebar .dropdown-toggle {
+            display: flex;
+            justify-content: space-between;
+            /* Align button text and icon */
+            align-items: center;
+            /* Vertically center items */
+            background-color: transparent;
+            /* Remove background color */
+            border: none;
+            /* Remove border */
+        }
+
+        .sidebar .dropdown-toggle .fas.fa-caret-down {
+            margin-left: 120px;
+            /* Adjust margin as needed */
+        }
+
+        /* Hide the default Bootstrap dropdown caret */
+        #sidebarDropdown::after {
+            display: none;
+        }
+
+        /* Hide text by default */
+        .hidden {
+            display: none;
+        }
+
+        /* Custom styles for horizontal line */
+        .sidebar hr {
+            border: 0;
+            height: 1px;
+            background: #555; /* Adjust color of the line */
+            margin: 10px 0; /* Adjust spacing around the line */
+        }
+    </style>
+</head>
+
+<body>
+    <div class="sidebar shadow" id="sidebar">
+        <a href="#" onclick="toggleSidebar()" data-toggle="tooltip" title="">
+            <i class="fas fa-chevron-right"></i> <span class="mt-2"></span>
+        </a>
+        <hr>
+        
+        <div class="dropdown">
+          <button class="btn dropdown-toggle" type="button" id="sidebarDropdown" data-bs-toggle="dropdown" aria-expanded="false" onclick="toggleDropdownMenu()">
+            <i class="fas fa-th mt-2"></i>
+              <span class="  hidden" id="dashText">Dashboard</span>
+              <i class="fas fa-caret-down"></i>
+          </button>
+          <div class="dropdown-menu" aria-labelledby="sidebarDropdown">
+              <a class="dropdown-item" href="{% url 'index' %}">Admin Dashboard</a>
+              <a class="dropdown-item" href="{% url 'index2' %}">Private Dashboard</a>
+              
+          </div>
+      </div>
+        <hr>
+        <a href="{% url 'list' %}" data-toggle="tooltip" title="Lead"><i class="fas fa-ticket-alt"></i> <span>Lead</span></a>
+        <hr>
+        <a href="{% url 'clist' %}" data-toggle="tooltip" title="Customer"><i class="fas fa-user"></i> <span>Customer</span></a>
+        <hr>
+        <!-- <a href="{% url 'tickets' %}" data-toggle="tooltip" title="Support Ticket"><i class="fas fa-life-ring"></i> <span>Support Ticket</span></a>
+        <hr> -->
+        <!-- Dropdown menu -->
+        <div class="dropdown">
+            <button class="btn dropdown-toggle" type="button" id="sidebarDropdown" data-bs-toggle="dropdown" aria-expanded="false" onclick="toggleDropdownMenu()">
+                <i class="fas fa-gamepad me-2"></i>
+                <span class="  hidden" id="activitiesText">Activities</span>
+                <i class="fas fa-caret-down"></i>
+            </button>
+            <div class="dropdown-menu" aria-labelledby="sidebarDropdown">
+                <a class="dropdown-item" href="#">Action</a>
+                <a class="dropdown-item" href="#">Another action</a>
+                <a class="dropdown-item" href="#">Something else here</a>
+            </div>
+        </div>
+        <hr>
+        <a href="{% url 'generalsettings' %}" data-toggle="tooltip" title="Settings"><i class="fas fa-cog"></i> <span>Settings</span></a>
+        <hr>
+        <a href="{% url 'logout' %}" data-toggle="tooltip" title="Logout"><i class="fas fa-sign-out-alt"></i> <span>Logout</span></a>
+    </div>
+
+
+    <!-- Top Navbar -->
+  <nav class="navbar content" id="top-navbar">
+    <div class="container-fluid">
+      <a href="#">Dashboard</a>
+      <form class="d-flex">
+        <button class="btn btn-outline-success " type="submit"><i class="fas fa-search"></i></button>
+        <button class="btn btn-outline-primary ms-2" type="button"><i class="fas fa-plus"></i></button>
+        <button class="btn btn-outline-info ms-2" type="button"><i class="fas fa-file"></i></button>
+        <button class="btn btn-outline-danger ms-2" type="button"><i class="fas fa-power-off"></i></button>
+        <button class="btn btn-outline-warning ms-2" type="button"><i class="fas fa-bell"></i></button>
+        {% if user.is_authenticated %}
+          <button class="btn"><img src="{{ user.profile_pic.url }}" width="30" class="user-img rounded-circle mr-2">
+          <span class="ms-2">{{ user.first_name }}</span></button>
+        {% endif %}
+      </form>
+    </div>
+  </nav>
+
+  <!-- second navbar start -->
+  <nav class="navbar navbar-expand-lg navbar-light  content" id="second-navbar">
+    <div class="container-fluid">
+      
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#">Overview</a>
+          </li>
+          
+               
+
+
+          
+
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="{% url 'complaintlist' %}">Complaint</a>
+              </li>
+           
+            <!-- Other navigation items -->
+          
+          
+
+
+
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#">Client</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#">HR</a>
+          </li>
+          
+  <!-- <li class="nav-item">
+    <a class="nav-link active" aria-current="page" href="{% url 'tickets' %}">Ticket</a>
+  </li> -->
+
+
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#">Finance</a>
+          </li>
+          <li class="nav-item">
+            
+            <a class="nav-link " href="{% url 'assigned_complaints' %}">My Assigned Complaints</a>
+          </li>
+          
+         
+        </ul>
+        
+          <a class="" href="#"><i class="fas fa-cog black-icon"></i>
+          </a>
+        
+      </div>
+    </div>
+  </nav>
+  <!-- second navbar end -->
+
+  <!-- Content -->
+  <div class="content" id="content">
+    <div class="row">
+      <div class="col-lg-3 col-md-6 mb-4">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Total Clients</h5>
+            <h6 class="card-subtitle mb-2 mt-2 navy-text">{{ customer_count }}</h6>
+          </div>
+          <!-- Add icon container -->
+          <div class="position-absolute top-0 end-0 m-4 p-4">
+            <i class="fas fa-users"></i> 
+          </div>
+        </div>
+      </div>
+  
+      
+  
+      <div class="col-lg-3 col-md-6 mb-4">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Total Employees</h5>
+            <h6 class="card-subtitle mb-2 mt-2  navy-text">{{user_count}}</h6>
+          </div>
+          <!-- Add icon container -->
+          <div class="position-absolute top-0 end-0 m-4 p-4">
+            <i class="fas fa-user"></i> 
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-3 col-md-6 mb-4">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Total Complaints</h5>
+            <h6 class="card-subtitle mb-2 mt-2  navy-text">{{complaint_count}}</h6>
+          </div>
+          <!-- Add icon container -->
+          <div class="position-absolute top-0 end-0 m-4 p-4">
+            <i class="fas fa-layer-group"></i> 
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-3 col-md-6 mb-4">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Due Invoices</h5>
+            <h6 class="card-subtitle mb-2 mt-2  navy-text">31</h6>
+          </div>
+          <!-- Add icon container -->
+          <div class="position-absolute top-0 end-0 m-4 p-4">
+            <i class="fas fa-file-invoice"></i> 
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-3 col-md-6 mb-4">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Pending Tasks</h5>
+            <h6 class="card-subtitle mb-2 mt-2  navy-text">{{overdue_tasks_count}}</h6>
+          </div>
+          <!-- Add icon container -->
+          <div class="position-absolute top-0 end-0 m-4 p-4">
+            <i class="fas fa-list-alt"></i> 
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-3 col-md-6 mb-4">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Today Attendance</h5>
+            <h6 class="card-subtitle mb-2 mt-2 navy-text">31</h6>
+          </div>
+          <!-- Add icon container -->
+          <div class="position-absolute top-0 end-0 m-4 p-4">
+            <i class="fas fa-calendar-alt"></i> 
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-3 col-md-6 mb-4">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Unresolved Tickets</h5>
+            <h6 class="card-subtitle mb-2 mt-2 navy-text ">31</h6>
+          </div>
+          <!-- Add icon container -->
+          <div class="position-absolute top-0 end-0 m-4 p-4">
+            <i class="fas fa-ticket-alt"></i> 
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    <!-- Bootstrap JS and Popper.js -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"></script>
+    <!-- Custom JS -->
+    <script>
+        function toggleSidebar() {
+            // var sidebar = document.getElementById("sidebar");
+            // sidebar.classList.toggle("active");
+            var sidebar = document.getElementById("sidebar");
+      var content = document.getElementById("content");
+      var secondNavbar = document.getElementById("second-navbar");
+      var topNavbar = document.getElementById("top-navbar");
+      sidebar.classList.toggle("active");
+      content.classList.toggle("active");
+      secondNavbar.classList.toggle("active");
+      topNavbar.classList.toggle("active");
+
+            // Toggle the visibility of the activities text
+            var activitiesText = document.getElementById("activitiesText");
+            if (sidebar.classList.contains("active")) {
+                activitiesText.classList.remove("hidden");
+            } else {
+                activitiesText.classList.add("hidden");
+            }
+
+             // Toggle the visibility of the dash text
+             var dashText = document.getElementById("dashText");
+            if (sidebar.classList.contains("active")) {
+              dashText.classList.remove("hidden");
+            } else {
+              dashText.classList.add("hidden");
+            }
+        }
+
+
+        document.addEventListener('click', function (event) {
+            var dropdownToggle = event.target.closest('.dropdown-toggle');
+            if (dropdownToggle) {
+                var dropdownMenu = dropdownToggle.nextElementSibling;
+                var allDropdownMenus = document.querySelectorAll('.dropdown-menu');
+                allDropdownMenus.forEach(function(menu) {
+                    if (menu !== dropdownMenu) {
+                        menu.classList.remove('show');
+                    }
+                });
+                dropdownMenu.classList.toggle('show');
+            } else {
+                var allDropdownMenus = document.querySelectorAll('.dropdown-menu');
+                allDropdownMenus.forEach(function(menu) {
+                    menu.classList.remove('show');
+                });
+            }
+        });
+        // function toggleDropdownMenu() {
+        //     var dropdownMenu = document.querySelector('.dropdown-menu');
+        //     dropdownMenu.classList.toggle('show');
+        // }
+    </script>
+</body>
+
+</html>

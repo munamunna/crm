@@ -1,0 +1,104 @@
+{% load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+     <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link rel="stylesheet" href="{%static 'general.css'%}">
+  
+</head>
+<body>
+    <!-- Sidebar -->
+  <div class="sidebar shadow" id="sidebar">
+    <a href="{% url 'index' %}" onclick="toggleSidebar()" data-toggle="tooltip" title="Dashboard"><i class="fas fa-th mt-2"></i> <span class="mt-2">Dashboard</span></a>
+    <a href="{% url 'list' %}" data-toggle="tooltip" title="Lead"><i class="fas fa-ticket-alt"></i>  <span>Lead</span></a>
+    <a href="{% url 'clist' %}" data-toggle="tooltip" title="Profile"><i class="fas fa-user"></i> <span>Profile</span></a>
+    <a href="{% url 'elist' %}" data-toggle="tooltip" title="Employee">
+      <i class="fas fa-briefcase"></i> <span>Employee</span>
+  </a>
+  
+  
+    <a href="" id="settingsLink" data-toggle="tooltip" title="Settings"><i class="fas fa-cog"></i> <span>Settings</span></a>
+    <a href="#" data-toggle="tooltip" title="Logout"><i class="fas fa-sign-out-alt"></i> <span>Logout</span></a>
+  </div> 
+
+  <!-- top Navbar -->
+  
+
+  <nav class="navbar   content" id="top-navbar">
+    <div class="container-fluid">
+      <a  href="#">Dashbord</a>
+      <form class="d-flex">
+        <button class="btn btn-outline-success " type="submit"><i class="fas fa-search"></i></button>
+        <button class="btn btn-outline-primary ms-2" type="button"><i class="fas fa-plus"></i></button>
+        <button class="btn btn-outline-info ms-2" type="button"><i class="fas fa-file"></i></button>
+        <button class="btn btn-outline-danger ms-2" type="button"><i class="fas fa-power-off"></i></button>
+        <button class="btn btn-outline-warning ms-2" type="button"><i class="fas fa-bell"></i></button>
+      </form>
+    </div>
+  </nav>
+
+  <nav class="navbar navbar-light bg-light mc">
+    <div class="container-fluid">
+      <a class="navbar-brand">Add Taskstages</a>
+      <form class="d-flex">
+        
+        <button class="btn btn-warning" type="submit">previuos</button>
+      </form>
+    </div>
+  </nav>
+
+  <div class="mc shadow task-list"> 
+    <div class="card">
+        <div class="card-body">
+            <h2 class="text-center">Stage List</h2>
+            <form action="" method="post">
+                {% csrf_token %}
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" id="taskInput" placeholder="Add a new stage">
+                    <button class="btn btn-success" type="button" id="addTaskButton">Add Stage</button>
+                </div>
+                <ul class="list-group" id="taskList">
+                    <!-- Tasks will be added here dynamically -->
+                </ul>
+                <!-- Hidden input to store the stages as a JSON array -->
+                <input type="hidden" name="stages" id="stagesInput">
+                <button class="btn btn-success" type="submit">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- JavaScript to handle adding tasks -->
+<script>
+    document.getElementById('addTaskButton').addEventListener('click', function() {
+        const taskInput = document.getElementById('taskInput');
+        const taskList = document.getElementById('taskList');
+        const newTask = taskInput.value.trim();
+        
+        if (newTask !== '') {
+            const listItem = document.createElement('li');
+            listItem.className = 'list-group-item';
+            listItem.textContent = newTask;
+            taskList.appendChild(listItem);
+            taskInput.value = '';
+
+            updateHiddenInput();
+        }
+    });
+
+    function updateHiddenInput() {
+        const taskList = document.getElementById('taskList');
+        const stages = [];
+        taskList.querySelectorAll('li').forEach(item => {
+            stages.push(item.textContent);
+        });
+        document.getElementById('stagesInput').value = JSON.stringify(stages);
+    }
+</script>
+</body>
+</html>

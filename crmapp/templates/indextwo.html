@@ -1,0 +1,76 @@
+{%extends 'base.html'%}
+{%block change_block%}
+                   
+                    {%endblock%}
+
+                    {% block content_block %}
+                    <div class="main-content mt-2 d-flex justify-content-between ms-auto">
+                         <!-- Display Messages -->
+    {% if messages %}
+    {% for message in messages %}
+      <div class="alert alert-{{ message.tags }}">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    {% endfor %}
+  {% endif %}
+
+  
+     
+          
+            
+          
+          <form id="clockForm" method="post" action="{% url 'clock_in' %}">
+              {% csrf_token %}
+              {% if already_clocked_in %}
+                  <button type="submit" class="btn btn-danger" id="clockBtn">Clock Out</button>
+              {% elif already_clocked_out %}
+                  <button type="button" class="btn btn-secondary" id="clockBtn" >Already Clocked Out</button>
+              {% else %}
+                  <button type="submit" class="btn btn-primary me-auto" id="clockBtn">Clock In</button>
+              {% endif %}
+          </form>
+      </div>
+                    
+                    {% endblock %}
+
+    
+                    {%block js_block%}
+                    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+                    <script>
+                        $(document).ready(function() {
+        $('#clockForm').on('submit', function(event) {
+            event.preventDefault();
+            var form = $(this);
+            $.ajax({
+                type: form.attr('method'),
+                url: form.attr('action'),
+                data: form.serialize(),
+                dataType: 'json',
+                success: function(data) {
+                    if (data.status === 'clocked_in') {
+                        $('#clockBtn').removeClass('btn-primary').addClass('btn-danger').text('Clock Out');
+                    } else if (data.status === 'clocked_out') {
+                        $('#clockBtn').removeClass('btn-danger').addClass('btn-primary').text('Clock In');
+                    } else if (data.status === 'already_clocked_out') {
+                        $('#clockBtn').removeClass('btn-danger').addClass('btn-secondary').text('Already Clocked Out').prop('disabled', true);
+                    }
+                    
+                    // Display messages if available
+                    if (data.message) {
+                        var alertDiv = $('<div class="alert alert-' + data.message.tags + '">' + data.message.text + '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
+                        $('#content').prepend(alertDiv);
+                        setTimeout(function() {
+                            alertDiv.remove();
+                        }, 5000);  // Remove alert after 5 seconds
+                    }
+                },
+                error: function(xhr, errmsg, err) {
+                    console.log(xhr.status + ": " + xhr.responseText); // Log any errors to console
+                }
+            });
+        });
+    });
+                    </script>
+                    {%endblock%}

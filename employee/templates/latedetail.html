@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Details</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="userType" id="clientRadio" value="client" onclick="showCustomerForm()">
+                            <label class="form-check-label" for="clientRadio">Client</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="userType" id="employeeRadio" value="employee" onclick="showEmployeeForm()">
+                            <label class="form-check-label" for="employeeRadio">Employee</label>
+                        </div>
+                    </div>
+                    
+                    <div id="customerForm" class="card-body hidden">
+                        <h5 class="card-title">Customer Information</h5>
+                        <!-- Display customer data -->
+                        <form action="" method="post">
+                            {% csrf_token %}
+                            <div class="row mb-3">
+                                <!-- Customer form fields -->
+                                <div class="col-sm-6">
+                                    <label for="person_type" class="form-label">Person Type:</label>
+                                    <input name="person_type" type="text" class="form-control" id="person_type_customer" value="Client" readonly>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label for="requester_name" class="form-label">Requester Name:</label>
+                                    <input name="requester_name" type="text" class="form-control" id="requester_name" value="{{ customer.name }}" readonly>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-sm-6">
+                                    <label for="" class="form-label">Designation:</label>
+                                    <input type="text" name="designation" class="form-control" id="" value="" readonly>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label for="" class="form-label">Phone Number:</label>
+                                    <input type="text" name="phone_number" class="form-control" id="" value="{{ customer.mobile }}" readonly>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-sm-6">
+                                    <label for="" class="form-label">Email:</label>
+                                    <input type="email" name="email" class="form-control" id="" value="{{ customer.email }}" readonly>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label for="" class="form-label">Default Issues:</label>
+                                    <select class="form-control" id="" name="defult_issues">
+                                        <option value="printer not working">Printer not working</option>
+                                        <option value="monitor issue">Monitor issue</option>
+                                        <!-- Add more options as needed -->
+                                    </select>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="" class="form-label">Complaint:</label>
+                                    <textarea name="complaint" class="form-control" id="" rows="3"></textarea>
+                                </div>
+                                
+                            </div>
+                            <button class="btn btn-success full-width" type="submit">Submit</button>
+                        </form>
+                    </div>
+
+                    <div id="employeeForm" class="card-body hidden">
+                        <h5 class="card-title">Employee Information</h5>
+                        <!-- Display employee data -->
+                        <form action="" method="post">
+                            {% csrf_token %}
+                            <div class="row mb-3">
+                                <!-- Employee form fields -->
+                                <div class="col-sm-6">
+                                    <label for="person_type" class="form-label">Person Type:</label>
+                                    <input type="text" name="person_type" class="form-control" id="person_type_employee" value="Employee" readonly>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label for="requester_name" class="form-label">Requester Name:</label>
+                                    <input type="text" name="requester_name" class="form-control" id="requester_name" value="{{employee.name}}" readonly>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <div class="col-sm-6">
+                                        <label for="" class="form-label">Designation:</label>
+                                        <input type="text" name="designation" class="form-control" id="" value="" readonly>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label for="" class="form-label">Phone Number:</label>
+                                        <input type="text" name="phone_number" class="form-control" id="" value="{{ employee.mobile }}" readonly>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-sm-6">
+                                        <label for="" class="form-label">Email:</label>
+                                        <input type="email" name="email" class="form-control" id="" value="{{ customer.email }}" readonly>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label for="" class="form-label">Default Issues:</label>
+                                        <select class="form-control" id="" name="defult_issues">
+                                            <option value="printer not working">Printer not working</option>
+                                            <option value="monitor issue">Monitor issue</option>
+                                            <!-- Add more options as needed -->
+                                        </select>
+                                    </div>
+    
+                                    <div class="mb-3">
+                                        <label for="" class="form-label">Complaint:</label>
+                                        <textarea name="complaint" class="form-control" id="" rows="3"></textarea>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                            <button class="btn btn-success full-width" type="submit">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Display messages here -->
+    {% if messages %}
+    <div class="card-footer">
+        {% for message in messages %}
+        <div class="alert alert-success" role="alert">
+            {{ message }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+</div>
+</div>
+</div>
+</div>
+
+    <script>
+        function showCustomerForm() {
+            document.getElementById("customerForm").classList.remove("hidden");
+            document.getElementById("employeeForm").classList.add("hidden");
+        }
+
+        function showEmployeeForm() {
+            document.getElementById("employeeForm").classList.remove("hidden");
+            document.getElementById("customerForm").classList.add("hidden");
+        }
+    </script>
+</body>
+</html>

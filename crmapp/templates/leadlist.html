@@ -1,0 +1,472 @@
+{%load static%}
+<!doctype html>
+<html lang="en">
+<head>
+  <title>Settings</title>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="{%static 'css/leadlist.css'%}">
+  <style>
+    .alert {
+        transition: opacity 0.5s ease-out;
+    }
+   
+    .sidebar {
+        display: flex;
+        flex-direction: row; /* Display horizontally */
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        width: 200px; /* Adjust as needed */
+        background-color: #f8f9fa; /* Sidebar background color */
+        overflow-x: hidden; /* Hide overflow */
+        padding-top: 20px;
+    }
+    .sidebar ul {
+        list-style-type: none;
+        padding: 0;
+    }
+    .sidebar ul li {
+        margin-bottom: 10px;
+    }
+    .sidebar a {
+        display: block;
+        padding: 10px;
+        text-decoration: none;
+        color: #333; /* Link color */
+    }
+    .sidebar a:hover {
+        background-color: #ddd; /* Hover background color */
+    }
+    .main-content {
+        margin-left: 200px; /* Adjust according to sidebar width */
+        padding: 20px;
+    }
+    .navbar {
+        margin-left: 200px; /* Adjust according to sidebar width */
+        padding: 20px;
+    }
+   
+    
+</style>
+</head>
+
+<body>
+
+  <!-- Sidebar -->
+<div class="sidebar">
+  <ul class="nav flex-column">
+    <li class="nav-item">
+      <a class="nav-link active" href="#">
+        <i class="fas fa-home"></i> Home
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#">
+        <i class="fas fa-user"></i> Profile
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#">
+        <i class="fas fa-cog"></i> Settings
+      </a>
+    </li>
+  </ul>
+</div>
+<!-- End Sidebar -->
+
+<!-- navbar start -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">Raw Leads</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0"></ul>
+        <form class="d-flex" action="" method="get">
+          <i class="material-icons star-icon me-2 orng-icon" data-bs-toggle="tooltip" title="Favorite">&#xE838;</i>
+          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="q" value="{{ request.GET.q }}">
+          <button class="btn btn-outline-orange" type="submit">Search</button>
+        </form>
+        <input type="button" class="add-user btn custombtn mr-2 ms-2" name="add-user" onclick="window.location.href='/leads/add/';" value="+ Add Lead">
+        <button type="button" class="add-user btn custombtn mr-2 ms-2" name="add-user"><i class="fas fa-file-import"></i> Import</button>
+        <button type="button" class="add-user btn btn-dark mr-2 ms-2" name="add-user"><i class="fas fa-cog"></i> </button>
+        <button type="button" class="add-user btn btn-dark mr-2 ms-2" name="add-user"><i class="fas fa-copy"></i></button>
+        <button class="btn btn-danger add-user  mr-2 ms-2 " id="closeButton">close</button>
+      </div>
+    </div>
+  </nav>
+  {% if messages %}
+  <div id="alert-messages" class="alert alert-success" role="alert">
+      {% for message in messages %}
+          {{ message }}
+      {% endfor %}
+  </div>
+{% endif %}
+
+<!-- second navbar start -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item dropdown ms-2">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Active
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item" href="#">Action</a></li>
+              <li><a class="dropdown-item" href="#">Another action</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="#">Something else here</a></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown ms-2">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Fin Year
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item" href="#">Action</a></li>
+              <li><a class="dropdown-item" href="#">Another action</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="#">Something else here</a></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown ms-2">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              2022-2023
+            </a>
+            <ul class="dropdown-menu " aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item" href="#">Action</a></li>
+              <li><a class="dropdown-item" href="#">Another action</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="#">Something else here</a></li>
+            </ul>
+          </li>
+          <span class="custom-checkbox ms-5"><input type="checkbox" id="checkbox1" name="option[]" value="1"><label for="checkbox1">select all lead</label></span>
+        </ul>
+      </div>
+    </div>
+  </nav>
+<!-- second nav end -->
+
+<!-- third navbar start -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container-fluid">
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item dropdown ms-2">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Select Source
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="#">Action</a></li>
+            <li><a class="dropdown-item" href="#">Another action</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="#">Something else here</a></li>
+          </ul>
+        </li>
+        <li class="nav-item dropdown ms-2">
+          <a class="nav-link dropdown-toggle" class="drp" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Select Executive
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="#">Action</a></li>
+            <li><a class="dropdown-item" href="#">Another action</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="#">Something else here</a></li>
+          </ul>
+        </li>
+        <li class="nav-item dropdown ms-2">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Select Designation
+          </a>
+          <ul class="dropdown-menu " aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="#">Action</a></li>
+            <li><a class="dropdown-item" href="#">Another action</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="#">Something else here</a></li>
+          </ul>
+        </li>
+        <li class="nav-item dropdown ms-2">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            All Appointments
+          </a>
+          <ul class="dropdown-menu " aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="#">Action</a></li>
+            <li><a class="dropdown-item" href="#">Another action</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="#">Something else here</a></li>
+          </ul>
+        </li>
+        <button class="btn btn-outline-orange ms-2" type="button">All  <br>{{ lead_count }}</button>
+        <!-- Display the lead counts for each stage -->
+        {% for stage in stages_counts %}
+        <button class="btn btn-outline-orange ms-2" type="button">{{ stage.stages__name }} <br> {{ stage.count }}</button>
+    {% endfor %}
+      </ul>
+    </div>
+  </div>
+</nav>
+<!-- third nav end -->
+
+<!-- fourth navbar start -->
+<nav class="navbar navbar-light bg-light">
+  <form class="container-fluid justify-content-start">
+    <button class="btn btn-outline-orange me-2" type="button">MissedAppointments:</button>
+    <button class="btn btn-outline-orange me-2" type="button">No Appointments:</button>
+    <button class="btn btn-outline-orange me-2" type="button">No interaction Leads:</button>
+    <button class="btn btn-outline-orange me-2" type="button">Unassigned Leads:</button>
+  </form>
+</nav>
+<!-- fourth nav end -->
+
+<!-- main-content-start -->
+<div class="main-content" id="mainContent">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="table-responsive">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th></th>
+              <th></th>
+              <!-- <th>Action</th> -->
+              <th>Company</th>
+              <th>Name</th>
+              
+              <th>Mobile</th>
+              <th>task_description</th>
+              
+              
+              <th>Lead Stage</th>
+              <th>Action</th>
+              <th>convert</th>
+              <th>Add Task</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+                {% for lead in leads %}
+              <td>
+                <span class="custom-checkbox">
+                  <input type="checkbox" id="checkbox1" name="option[]" value="1">
+                  <label for="checkbox1"></label>
+                </span>
+              </td>
+              <td>
+                <a href="#" type="button"><i class="material-icons star-icon orng-icon"  data-bs-toggle="tooltip" title="Favorite">&#xE838;</i></a>
+              </td>
+              <!-- <td>
+                <button type="button" class="add-user btn btn-dark mr-2 ms-2" name="add-user" onclick="window.location.href='/leads/add/';">
+                    <i class="fas fa-pen"></i>
+                </button>
+            </td> -->
+              <td>{{ lead.company_name }}</td>
+              
+              <td>
+                <a href="{% url 'lead_detail' lead.id %}">{{ lead.first_name }}</a>
+            </td>
+             
+              <td>{{ lead.mobile }}</td>
+              {% if tasks %}
+              {% for task in tasks %}
+                  {% if forloop.last %}
+                      <td>{{ task.task_description }}</td>
+                  {% endif %}
+              {% endfor %}
+          {% else %}
+              <!-- Display nothing or a custom message -->
+              <td>No tasks available</td>
+          {% endif %}
+          
+
+              
+              
+              
+              
+              <td>{{lead.stages}}</td>
+              <td>
+                <a href="{% url 'lead_edit' lead.id %}" class="edit">
+                  <i class="fas fa-edit orng-icon"  title="Edit"></i>
+              </a>
+              
+                <a href="#" class="whatsapp" data-bs-toggle="modal"><i class="fab fa-whatsapp green-icon" data-bs-toggle="tooltip" title="WhatsApp"></i></a>
+              </td>
+              <td>
+                
+                    <button type="button" class="btn custombtn" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                      Convert
+                    </button>
+                
+                <!-- Modal -->
+              <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Confirm Conversion</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            Are you sure you want to convert this lead?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <form method="post" action="{% url 'convert-lead-to-customer' lead.id %}">
+                              {% csrf_token %}
+                              <button type="submit" class="add-user btn custombtn mr-2 ms-2">Convert</button>
+                              </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </td>
+            <td>
+              <!-- Button trigger modal -->
+              <button type="button" class="btn custombtn" data-bs-toggle="modal" data-bs-target="#modal-{{ lead.id }}">
+                +Add Task
+              </button>
+            </td>
+                                  <!-- Modal -->
+  <div class="modal fade" id="modal-{{ lead.id }}" tabindex="-1" aria-labelledby="modalLabel-{{ lead.id }}" aria-hidden="true">
+  <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Task Activity Form</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          
+
+          <div class="modal-body">
+              <form action="" method="POST" enctype="multipart/form-data">
+                  {% csrf_token %}
+                  <div>
+                      <label for="">Related To:</label>
+                      <br>
+                      <select name="related_to" class="form-select">
+                        
+                            <option value="{{ lead.id }}">{{lead.company_name}}</option>
+                        
+                    </select>
+                  </div>
+                  <div>
+                      <label for="">Task Title:</label>
+                      <br>
+                      <input type="text" name="task_title" value="" class="form-control">
+                  </div>
+                  <div>
+                      <label for="">Assigned To:</label>
+                      <br>
+                      <select name="assigned_to" class="form-select">
+                          {% for user in users%}
+                              <option value="{{ user.id }}">{{user.first_name}}</option>
+                          {% endfor %}
+                      </select>
+                  </div>
+                  <div>
+                      <label for="">Due Date:</label>
+                      <br>
+                      <input type="date" name="due_date" value="" class="form-control">
+                  </div>
+                  <div>
+                    <label for="priorty">Priority:</label>
+                    <br>
+                    <select name="priorty" class="form-select">
+                        <option value="low">Low</option>
+                        <option value="medium">Medium</option>
+                        <option value="high">High</option>
+                    </select>
+                </div>
+                  <div>
+                      <label for="">Task Description:</label>
+                      <br>
+                      <textarea name="task_description" class="form-control"></textarea>
+                  </div>
+                  <div>
+                      <label for="">Attachment:</label>
+                      <br>
+                      <input type="file" name="attachment" class="form-control">
+                  </div>
+              
+                  <button type="submit">Submit</button>
+              </form>
+          </div>
+          
+      </div>
+  </div>
+</div>
+<!-- End Modal -->
+            </tr>
+            {%endfor%}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- main content-end -->
+
+
+
+<!-- navigation start -->
+<nav aria-label="Page navigation example">
+  <ul class="pagination justify-content-end">
+    <li class="page-item">
+      <a class="page-link" href="#" aria-label="Previous" id="previousPage">
+        <span aria-hidden="true">&laquo;</span>
+      </a>
+    </li>
+    <li class="page-item"><a class="page-link" href="#" id="page1">1</a></li>
+    <li class="page-item"><a class="page-link" href="#" id="page2">2</a></li>
+    <li class="page-item"><a class="page-link" href="#" id="page3">3</a></li>
+    <li class="page-item">
+      <a class="page-link" href="#" aria-label="Next" id="nextPage">
+        <span aria-hidden="true">&raquo;</span>
+      </a>
+    </li>
+  </ul>
+</nav>
+<!-- navigation end -->
+
+<!-- Close Button -->
+<div class="d-flex justify-content-end">
+  
+</div>
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+      // Get the alert element
+      var alertMessages = document.getElementById('alert-messages');
+      
+      // Check if the alert element exists
+      if (alertMessages) {
+          // Set a timeout to hide the alert after 5 seconds
+          setTimeout(function() {
+              alertMessages.style.opacity = '0';
+              setTimeout(function() {
+                  alertMessages.style.display = 'none';
+              }, 500); // matches the transition duration
+          }, 5000); // 5 seconds
+      }
+  });
+</script>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+
+<script>
+  document.getElementById('closeButton').addEventListener('click', function() {
+    window.location.href = '/';
+  });
+</script>
+
+</body>
+</html>

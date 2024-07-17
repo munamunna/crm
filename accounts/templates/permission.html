@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Permission Selection</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+        h2 {
+            text-align: center;
+        }
+        .permissions {
+            list-style-type: none;
+            padding: 0;
+        }
+        .permissions li {
+            margin: 10px 0;
+        }
+        .submit-btn {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            border: none;
+            background-color: #28a745;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        .submit-btn:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Select Permissions for Engineer</h2>
+        <form id="permissionForm" action="" method="POST">
+            {% csrf_token %}
+            <ul class="permissions">
+                <li>
+                    <label>
+                        <input type="checkbox" name="permissions[]" value="branch_create">
+                        Branch Create
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        <input type="checkbox" name="permissions[]" value="branch_update">
+                        Branch Update
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        <input type="checkbox" name="permissions[]" value="branch_delete">
+                        Branch Delete
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        <input type="checkbox" name="permissions[]" value="branch_edit">
+                        Branch Edit
+                    </label>
+                </li>
+            </ul>
+            <button type="submit" class="submit-btn">Submit</button>
+        </form>
+    </div>
+</body>
+</html>

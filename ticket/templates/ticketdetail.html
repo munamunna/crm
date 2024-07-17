@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ticket Details - {{ ticket.registration_number }}</title>
+</head>
+<body>
+    <h1>Ticket Details</h1>
+    <table>
+        <tr>
+            <th>Registration Number:</th>
+            <td>{{ ticket.registration_number }}</td>
+        </tr>
+        <tr>
+            <th>Requester Name:</th>
+            <td>{{ ticket.requester_name }}</td>
+        </tr>
+        <tr>
+            <th>Assigned To:</th>
+            <td>{{ ticket.assign_to.first_name }}</td>
+        </tr>
+        <tr>
+            <th>Priority:</th>
+            <td>{{ ticket.get_priority_display }}</td>
+        </tr>
+        <tr>
+            <th>Status:</th>
+            <td>{{ ticket.get_status_display }}</td>
+        </tr>
+        <tr>
+            <th>Description:</th>
+            <td>{{ ticket.description }}</td>
+        </tr>
+    </table>
+    <a href="{% url 'tickets' %}">Back to Tickets List</a>
+    <a href="{% url 'ticket_edit' ticket.id%}">reply Tickets List</a>
+</body>
+</html>

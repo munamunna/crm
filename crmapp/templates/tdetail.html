@@ -1,0 +1,75 @@
+{%extends 'base.html'%}
+{%block change_block%}
+                   
+                    {%endblock%}
+{%block link_block%}
+<style>
+    .task-info {
+        display: flex;
+        align-items: center;
+        margin-bottom: 8px; /* Adjust margin as needed for spacing between rows */
+    }
+    .task-info label {
+        min-width: 100px; /* Adjust width as needed for consistent label width */
+    }
+    .task-info .colon {
+        margin: 0 10px; /* Adjust margin as needed for spacing around colon */
+    }
+    .mc{
+        width: 800px;
+    }
+
+</style>
+    {%endblock%}
+{%block content_block%}
+<div class="main-content mt-2">
+    <div class="card ms-5 mc">
+    
+        <div class="card-body">
+    
+            <div class="task-info">
+                <label for="">Title</label>
+                <span class="colon">:</span>
+                <span>{{ task.task_title }}</span>
+            </div>
+            <div class="task-info">
+                <label for="">Related To</label>
+                <span class="colon">:</span>
+                <span>{{ task.related_to }}</span>
+            </div>
+            <div class="task-info">
+                <label for="">Assigned To</label>
+                <span class="colon">:</span>
+                <span>{{ task.assigned_to }}</span>
+            </div>
+    
+            <div class="task-info">
+                <label for="">Description</label>
+                <span class="colon">:</span>
+                <span>{{ task.task_description }}</span>
+            </div>
+            <div class="task-info">
+                <label for="">Priority</label>
+                <span class="colon">:</span>
+                <span>{{ task.priorty }}</span>
+            </div>
+            <div class="task-info">
+                <label for="">Due Date</label>
+                <span class="colon">:</span>
+                <span>{{ task.due_date|date:"F j, Y" }}</span>
+            </div>
+        </div>
+        <div>
+            {% if task.status == 'incomplete' %}
+    <a href="{% url 'start-task' task.id %}" class="btn btn-warning">Start Task</a>
+    {% elif task.status == 'inprogress' %}
+    <a href="{% url 'complete-task' task.id %}" class="btn btn-success">Complete Task</a>
+    {% elif task.status == 'completed' %}
+    <span class="badge bg-success">Completed</span>
+    {% endif %}
+        </div>
+        
+    </div>  
+</div>
+
+{%endblock%}

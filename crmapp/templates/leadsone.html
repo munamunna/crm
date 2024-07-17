@@ -1,0 +1,159 @@
+{%extends 'base.html'%}
+
+  
+{% block content_block %}
+<div class="main-content mt-2">
+    <button class=" ms-5 btn btn-outline-orange " type="button">All  <br>{{ lead_count }}</button>
+        <!-- Display the lead counts for each stage -->
+        {% for stage in stages_counts %}
+        <button class="btn btn-outline-orange ms-2" type="button">{{ stage.stages__name }} <br> {{ stage.count }}</button>
+    {% endfor %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Company</th>
+                            <th>Name</th>
+                            <th>Mobile</th>
+                            <th>Task Description</th>
+                            <th>Lead Stage</th>
+                            <th>Action</th>
+                            <th>Convert</th>
+                            <th>Add Task</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for lead in leads %}
+                        <tr>
+                            <td>
+                                <span class="custom-checkbox">
+                                    <input type="checkbox" id="checkbox1" name="option[]" value="1">
+                                    <label for="checkbox1"></label>
+                                </span>
+                            </td>
+                            <td>{{ lead.company_name }}</td>
+                            <td><a href="{% url 'lead_detail' lead.id %}">{{ lead.first_name }}</a></td>
+                            <td>{{ lead.mobile }}</td>
+                            <td>
+                                {% if lead.latest_task_activity %}
+                                <p><strong>{{ lead.latest_task_activity.task_title }}:</strong> {{ lead.latest_task_activity.task_description }}</p>
+                                {% else %}
+                                <p>No tasks found for this lead.</p>
+                                {% endif %}
+                            </td>
+                            <td>{{ lead.stages }}</td>
+                            <td>
+                                <a href="{% url 'lead_edit' lead.id %}" class="edit"><i class="fas fa-edit" title="Edit"></i></a>
+                                <a href="#" class="whatsapp" data-bs-toggle="modal" data-bs-target="#whatsappModal"><i class="fab fa-whatsapp" title="WhatsApp"></i></a>
+                            </td>
+                            <td>
+                                <a href="#" class="convert" data-bs-toggle="modal" data-bs-target="#convertModal"><i class="fas fa-exchange-alt" title="Convert"></i></a>
+                                    <!-- Convert Modal -->
+<div class="modal fade" id="convertModal" tabindex="-1" aria-labelledby="convertModalLabel" aria-hidden="true">
+<div class="modal-dialog">
+<div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title" id="convertModalLabel">Convert Lead</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+        <!-- Modal body content -->
+        <p>Are you sure you want to convert this lead?</p>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <form method="post" action="{% url 'convert-lead-to-customer' lead.id %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-secondary ">Convert</button>
+            </form>
+    </div>
+</div>
+</div>
+</div>
+                            </td>
+                            
+                            <td>
+                                <a href="#" class="add-task" data-bs-toggle="modal" data-bs-target="#addTaskModal"><i class="fas fa-tasks" title="Add Task"></i></a>
+                                <!-- Add Task Modal -->
+<div class="modal fade" id="addTaskModal" tabindex="-1" aria-labelledby="addTaskModalLabel" aria-hidden="true">
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="addTaskModalLabel">Add Task</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form action="" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div>
+                    <label for="">Related To:</label>
+                    <br>
+                    <select name="related_to" class="form-select">
+                      
+                          <option value="{{ lead.id }}">{{lead.company_name}}</option>
+                      
+                  </select>
+                </div>
+                <div>
+                    <label for="">Task Title:</label>
+                    <br>
+                    <input type="text" name="task_title" value="" class="form-control">
+                </div>
+                <div>
+                    <label for="">Assigned To:</label>
+                    <br>
+                    <select name="assigned_to" class="form-select">
+                        {% for user in users %}
+                            <option value="{{ user.id }}">{{ user.first_name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div>
+                    <label for="">Due Date:</label>
+                    <br>
+                    <input type="date" name="due_date" value="" class="form-control">
+                </div>
+                <div>
+                  <label for="priorty">Priority:</label>
+                  <br>
+                  <select name="priorty" class="form-select">
+                      <option value="low">Low</option>
+                      <option value="medium">Medium</option>
+                      <option value="high">High</option>
+                  </select>
+              </div>
+                <div>
+                    <label for="">Task Description:</label>
+                    <br>
+                    <textarea name="task_description" class="form-control"></textarea>
+                </div>
+                <div>
+                    <label for="">Attachment:</label>
+                    <br>
+                    <input type="file" name="attachment" class="form-control">
+                </div>
+            
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            
+        </div>
+    </div>
+</div>
+</div>
+                            </td>
+                            
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div> 
+</div>
+{% endblock %}

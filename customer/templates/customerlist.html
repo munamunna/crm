@@ -1,0 +1,75 @@
+{%extends 'base.html'%}
+{%block change_block%}
+                   
+                    {%endblock%}
+{% block content_block %}
+<div class="main-content mt-2">
+    <div class="row">
+        <div class="col-md-12">
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th></th>
+                  <th>Company</th>
+                  <th>Name</th>
+                  <th>Source</th>
+                  <th>Mobile</th>
+                  <th>POC</th>
+                  <th>Last Talk</th>
+                  <th>Next</th>
+                  <th></th>
+                  
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                    {% for customer in customers %}
+    
+                  <td>
+                    <span class="custom-checkbox">
+                      <input type="checkbox" id="checkbox1" name="option[]" value="1">
+                      <label for="checkbox1"></label>
+                    </span>
+                  </td>
+                  <td>
+                    <a href="#" type="button"><i class="material-icons star-icon orng-icon"  data-bs-toggle="tooltip" title="Favorite">&#xE838;</i></a>
+                    
+                  </td>
+                  <td>{{ customer.company_name }}</td>
+                  <td>{{ customer.first_name }}</td>
+                  <td>-</td>
+                  <td>{{ customer.mobile }}</td>
+                  <td></td>
+                  <td></td>
+                  <td>1-Aug-23</td>
+                  <td>
+                    <a href="{%url 'customer_edit' customer.id %}" class="edit" ><i class="fas fa-edit orng-icon" data-bs-toggle="tooltip" title="Edit"></i></a>
+                    <a href="#" class="whatsapp" data-bs-toggle="modal"><i class="fab fa-whatsapp green-icon" data-bs-toggle="tooltip" title="WhatsApp"></i></a>
+                    
+                    
+                    
+                    
+                  </td>
+                  
+                  <td><div class="dropdown">
+            
+                      
+                   
+    
+                  <a type="button" class=" btn custombtn" href="{% url 'customer_detail' customer_id=customer.id%}">register complaint</a>
+                  
+                </tr>
+                {%endfor%}
+    
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    
+            
+</div>
+{% endblock %}
