@@ -27,7 +27,7 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('index/',views.IndexView.as_view(),name="index"),
-    path('',views.IndeView.as_view(),name="index2"),
+    path('index2/',views.IndeView.as_view(),name="index2"),
     path('maindash/',views.mainDashView.as_view(),name="maindash"),
     path('dash/',views.DashView.as_view(),name="dash"),
     path('clock-in/', views.clock_in, name='clock_in'),
