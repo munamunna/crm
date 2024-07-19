@@ -57,80 +57,6 @@ class ContactDetailsForm(forms.ModelForm):
 
 
 
-# class LeadChangeForm(forms.ModelForm):
-    
-    
-    
-    
-#     stages = forms.ModelChoiceField(
-#         queryset=LeadStage.objects.all(),
-#         widget=forms.Select(attrs={'class': 'form-select'}),required=False
-#     )
-#     source = forms.ModelChoiceField(
-#         queryset=Source.objects.all(),
-#         widget=forms.Select(attrs={'class': 'form-select'}),required=False
-#     )
-#     exe_designation = forms.ModelChoiceField(
-#         queryset=Designation.objects.all(),
-#         widget=forms.Select(attrs={'class': 'form-select'}),required=False
-#     )
-#     executive_name = forms.ModelChoiceField(
-#         queryset=Employee.objects.all(),
-#         widget=forms.Select(attrs={'class': 'form-select'}),required=False
-#     )
-#     industry_type = forms.ModelChoiceField(
-#         queryset=IndustryType.objects.all(),
-#         widget=forms.Select(attrs={'class': 'form-select'}),required=False
-#     )
-#     country = forms.ModelChoiceField(
-#         queryset=Country.objects.all(),
-#         widget=forms.Select(attrs={'class': 'form-select'}),required=False
-#     )
-#     state = forms.ModelChoiceField(
-#         queryset=State.objects.all(),
-#         widget=forms.Select(attrs={'class': 'form-select'}),required=False
-#     )
-#     city = forms.ModelChoiceField(
-#         queryset=City.objects.all(),
-#         widget=forms.Select(attrs={'class': 'form-select'}),required=False
-#     )
-#     class Meta:
-#         model = Lead
-#         fields = ['company_name', 'first_name', 'email', 'mobile', 'mobile_country_code', 
-#                   'country', 'state', 'city', 'executive_name', 'exe_designation', 'source', 
-#                   'product', 'requirement', 'notes', 'stages', 'industry_type', 'gst']
-#         widgets = {
-#             'company_name': forms.TextInput(attrs={'class': 'form-control'}),
-#             'first_name': forms.TextInput(attrs={'class': 'form-control'}),
-#             'email': forms.EmailInput(attrs={'class': 'form-control'}),
-#             'mobile': forms.TextInput(attrs={'class': 'form-control'}),
-#             'mobile_country_code': forms.TextInput(attrs={'class': 'form-control'}),
-           
-#             'product': forms.TextInput(attrs={'class': 'form-control'}),
-#             'requirement': forms.TextInput(attrs={'class': 'form-control'}),
-#             'notes': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
-            
-#             'industry_type': forms.TextInput(attrs={'class': 'form-control'}),
-#             'gst': forms.TextInput(attrs={'class': 'form-control'}),
-#         }
-
-
-
-
-# class TaskActivityForm(forms.ModelForm):
-#     class Meta:
-#         model = TaskActivity
-#         fields = ['task_title', 'assigned_to', 'related_to', 'due_date', 'priorty', 'task_description', 'attachment']
-#         widgets = {
-#             'task_title': forms.TextInput(attrs={'class': 'form-control'}),
-#             'assigned_to': forms.Select(attrs={'class': 'form-select'}),
-            
-#             'related_to': forms.TextInput(attrs={'class': 'form-control'}),
-#             'due_date': forms.DateTimeInput(attrs={'class': 'form-control'}),
-#             'priority': forms.TextInput(attrs={'class': 'form-control'}),
-#             'task_description': forms.Textarea(attrs={'class': 'form-control'}),
-#             'attachment': forms.ClearableFileInput(attrs={'class': 'form-control'})
-#         }
 
 class TaskActivityForm(forms.ModelForm):
     task_title = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}),required=True)
@@ -192,18 +118,18 @@ class BusinessDetailsForm(forms.ModelForm):
     class Meta:
         model = bussiness_details
         fields = [ 'executive_name', 'exe_designation', 'source', 'product', 'requirement', 'notes','stages','industry_type','gst' ]
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['executive_name'].label_from_instance = lambda obj: obj.first_name
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        try:
-            # Assuming the LeadStage instance with the name "New" exists
-            new_stage = LeadStage.objects.get(name="New")
-            self.fields['stages'].initial = new_stage
-        except LeadStage.DoesNotExist:
-            # Handle the case where the "New" stage does not exist
-            pass
+    # def __init__(self, *args, **kwargs):
+    #     super().__init__(*args, **kwargs)
+    #     self.fields['executive_name'].label_from_instance = lambda obj: obj.first_name
+    # def __init__(self, *args, **kwargs):
+    #     super().__init__(*args, **kwargs)
+    #     try:
+           
+    #         new_stage = LeadStage.objects.get(name="New")
+    #         self.fields['stages'].initial = new_stage
+    #     except LeadStage.DoesNotExist:
+            
+    #         pass
 
 
 class LeadChangeForm(forms.ModelForm):
