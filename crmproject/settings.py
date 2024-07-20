@@ -88,11 +88,12 @@ WSGI_APPLICATION = 'crmproject.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
+        'ENGINE': 'mysql.connector.django',
         'NAME': 'crmdb',
         'USER':'munamunna',
         'PASSWORD':'munamunna@123',
-        'HOST':'localhost'
+        'HOST':'localhost',
+        'PORT': '3306',
     }
 }
 
