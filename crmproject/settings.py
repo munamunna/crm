@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'accounts',
     'ticket',
     
+    
   
 ]
 
@@ -60,6 +61,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    
 ]
 
 ROOT_URLCONF = 'crmproject.urls'
@@ -138,6 +140,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -147,3 +150,13 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # myproject/settings.py
 
 AUTH_USER_MODEL = 'accounts.CustomUser'
+
+AWS_ACCESS_KEY_ID = 'AKIA5FTZD7B2GPSCA3RF '
+AWS_SECRET_ACCESS_KEY = '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'
+AWS_STORAGE_BUCKET_NAME = 'cbkt'
+AWS_S3_SIGNATURE_NAME = 's3v4',
+AWS_S3_REGION_NAME = 'eu-north-1'
+AWS_S3_FILE_OVERWRITE = False
+AWS_DEFAULT_ACL =  None
+AWS_S3_VERITY = True
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
