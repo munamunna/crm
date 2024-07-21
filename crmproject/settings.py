@@ -47,7 +47,7 @@ INSTALLED_APPS = [
     'occupationsettings',
     'accounts',
     'ticket',
-    
+    'whitenoise.runserver_nostatic',
     
   
 ]
@@ -61,6 +61,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     
 ]
 
