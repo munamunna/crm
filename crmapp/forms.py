@@ -120,15 +120,13 @@ class BusinessDetailsForm(forms.ModelForm):
         fields = [ 'executive_name', 'exe_designation', 'source', 'product', 'requirement', 'notes','stages','industry_type','gst' ]
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        # Set the label for executive_name field to show the first_name
         self.fields['executive_name'].label_from_instance = lambda obj: obj.first_name
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+        # Set default initial value for stages field
         try:
-           
             new_stage = LeadStage.objects.get(name="new")
             self.fields['stages'].initial = new_stage
         except LeadStage.DoesNotExist:
-            
             pass
 
 
