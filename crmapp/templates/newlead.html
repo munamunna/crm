@@ -129,7 +129,7 @@
                         <div class="form-group row">
                             <label for="{{ business_form.executive_name.id_for_label }}" class="col-sm-2 col-form-label">Executive Name:</label>
                             <div class="col-sm-4">
-                                {{ business_form.executive_name }}
+                                {{ business_form.executive_name.first_name }}
                                 {{ business_form.executive_name.errors }}
                             </div>
                             <label for="{{ business_form.exe_designation.id_for_label }}" class="col-sm-2 col-form-label">Designation:</label>
