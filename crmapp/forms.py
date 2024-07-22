@@ -118,18 +118,18 @@ class BusinessDetailsForm(forms.ModelForm):
     class Meta:
         model = bussiness_details
         fields = [ 'executive_name', 'exe_designation', 'source', 'product', 'requirement', 'notes','stages','industry_type','gst' ]
-    # def __init__(self, *args, **kwargs):
-    #     super().__init__(*args, **kwargs)
-    #     self.fields['executive_name'].label_from_instance = lambda obj: obj.first_name
-    # def __init__(self, *args, **kwargs):
-    #     super().__init__(*args, **kwargs)
-    #     try:
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['executive_name'].label_from_instance = lambda obj: obj.first_name
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        try:
            
-    #         new_stage = LeadStage.objects.get(name="New")
-    #         self.fields['stages'].initial = new_stage
-    #     except LeadStage.DoesNotExist:
+            new_stage = LeadStage.objects.get(name="New")
+            self.fields['stages'].initial = new_stage
+        except LeadStage.DoesNotExist:
             
-    #         pass
+            pass
 
 
 class LeadChangeForm(forms.ModelForm):
