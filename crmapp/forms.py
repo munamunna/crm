@@ -125,7 +125,7 @@ class BusinessDetailsForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         try:
            
-            new_stage = LeadStage.objects.get(name="New")
+            new_stage = LeadStage.objects.get(name="new")
             self.fields['stages'].initial = new_stage
         except LeadStage.DoesNotExist:
             
