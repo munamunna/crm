@@ -44,7 +44,7 @@ def add_role(request):
                     Role.objects.create(name=name)
             messages.success(request, 'Roles added successfully!')
         return redirect('roles-add')  
-    return render(request, 'addroles.html')
+    return render(request, 'addrolesone.html')
 
 
 
@@ -70,7 +70,7 @@ def assign_permissions(request):
 
 class RolesView(ListView):
     model = Role
-    template_name = "roles.html"
+    template_name = "rolesone.html"
     context_object_name = "roles"
 
     def get_context_data(self, **kwargs):

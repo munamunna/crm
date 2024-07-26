@@ -111,6 +111,7 @@ class Lead(models.Model):
     industry_type = models.CharField(max_length=40, blank=True, null=True)
     gst = models.CharField(max_length=40, blank=True, null=True)
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='leads',blank=True, null=True)
+    created_at = models.DateTimeField(default=timezone.now, blank=True, null=True)
 
     
 

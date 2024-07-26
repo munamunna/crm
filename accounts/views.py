@@ -21,11 +21,11 @@ def create_user(request):
     else:
         form = CustomUserCreationForm()
 
-    return render(request, 'add_user.html', {'form': form})
+    return render(request, 'adduser_one.html', {'form': form})
 
 class UsersView(ListView):
     model=CustomUser
-    template_name="users.html"
+    template_name="usersone.html"
     context_object_name="users"
 
 # def user_login(request):
@@ -54,7 +54,7 @@ def user_login(request):
         if user is not None:
             login(request, user)
             if user.is_superuser:
-                return redirect('index')  # Redirect to index for superusers
+                return redirect('index2')  # Redirect to index for superusers
             else:
                 return redirect('index2')  # Redirect to index2 for regular users
         else:

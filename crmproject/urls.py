@@ -35,6 +35,7 @@ urlpatterns = [
     path('user_presence/', views.user_presence, name='user_presence'),
     
     path('leads/add/',views.EnterLeadView.as_view(),name="lead_form"),
+    path('leadscount/',views.lead_counts_view,name="lead_count"),
     
     
     path('leads/all/',views.LeadListView.as_view(),name="list"),

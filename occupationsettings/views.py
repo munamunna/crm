@@ -10,7 +10,7 @@ from django.contrib import messages
 #     template_name="generalsettings.html"
 
 class OccupationView(TemplateView):
-    template_name="occupations.html"
+    template_name="occupationone.html"
 
 
 
@@ -27,10 +27,10 @@ def add_occupation(request):
                     Occupation.objects.create(name=name)
             messages.success(request, 'Occupation added successfully!')
         return redirect('occupation-add')  
-    return render(request, 'addoccupation.html')
+    return render(request, 'addoccupationone.html')
 
 
 class OccupationView(ListView):
     model = Occupation
-    template_name = "occupations.html"
+    template_name = "occupationone.html"
     context_object_name = "occupations"

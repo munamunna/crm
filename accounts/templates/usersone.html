@@ -1,0 +1,57 @@
+
+{%extends 'base.html'%}
+{% load form_tags %}
+{%block change_block%}
+<input type="button" class=" nav-link add-user btn custombtn mr-2 ms-2" name="add-user" onclick="window.location.href='/register/';" value="+ Add Users">
+{%endblock%}
+{% block content_block %}
+<div class="main-content mt-2">
+    <div class=" mc shadow"> 
+       
+      </div>
+    
+      <div class="card ms-4">
+        
+        <div class="card-body">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Action</th>
+                        <th scope="col">Name</th>
+                        
+                        <th scope="col">Role</th>
+                        <th scope="col">Reportee</th>
+                        <th scope="col">EMAIL</th>
+                        <th scope="col">MOBILE</th>
+                        <th scope="col">Date Of Birth</th>
+                        <th scope="col">Department</th>
+                        <th scope="col">STATUS</th>
+                    </tr>
+                </thead>
+                <tbody>
+                  {% for user in users %}
+                    <tr>
+                        <td>
+                          <a href="#" class="text-danger"><i class="fas fa-trash"></i></a>
+    
+                        </td>
+                        <td>{{user.first_name}}</td>
+                        
+                          
+                      
+                        <td>{{user.role}}</td>
+                        <td>{{user.reportee}}</td>
+                        <td>{{user.email}}</td>
+                        <td>{{user.mobile}}</td>
+                        <td>{{user.date_of_birth}}</td>
+                        <td>{{user.department}}</td>
+                        <td>Active</td>
+                    </tr>
+                    {%endfor%}
+                    <!-- Additional rows as needed -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

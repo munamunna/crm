@@ -1,0 +1,104 @@
+{%extends 'base.html'%}
+{%block load_block%}
+{% load form_tags %}
+    {%endblock%}
+
+    {%block header_block%}
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    {%endblock%}
+    {%block change_block%}
+    <a href="{%url 'users'%}" class="btn btn-warning" type="submit">previuos</a>
+    {%endblock%}
+{% block content_block %}
+<div class="main-content mt-2">
+    <div class="container mt-5">
+        <h1>Create User</h1>
+        <form method="POST">
+            {% csrf_token %}
+            <div class="card">
+                <div class="card-header">
+                    User Information
+                </div>
+                <div class="card-body">
+                    <!-- Row 1 -->
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            {{ form.first_name.label_tag }} {{ form.first_name|add_class:"form-control" }}
+                        </div>
+                        <div class="form-group col-md-4">
+                            {{ form.last_name.label_tag }} {{ form.last_name|add_class:"form-control" }}
+                        </div>
+                        <div class="form-group col-md-4">
+                            {{ form.email.label_tag }} {{ form.email|add_class:"form-control" }}
+                        </div>
+                    </div>
+                    <!-- Row 2 -->
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            {{ form.password.label_tag }} {{ form.password|add_class:"form-control" }}
+                        </div>
+                        <div class="form-group col-md-4">
+                            {{ form.confirm_password.label_tag }} {{ form.confirm_password|add_class:"form-control" }}
+                        </div>
+                        <div class="form-group col-md-4">
+                            {{ form.mobile.label_tag }} {{ form.mobile|add_class:"form-control" }}
+                        </div>
+                    </div>
+                    <!-- Row 3 -->
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            {{ form.gender.label_tag }} {{ form.gender|add_class:"form-control" }}
+                        </div>
+                        <div class="form-group col-md-4">
+                            {{ form.date_of_birth.label_tag }} {{ form.date_of_birth|add_class:"form-control" }}
+                        </div>
+                        <div class="form-group col-md-4">
+                            {{ form.user_type.label_tag }} {{ form.user_type|add_class:"form-control" }}
+                        </div>
+                    </div>
+                    <!-- Row 4 -->
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            {{ form.country.label_tag }} {{ form.country|add_class:"form-control" }}
+                        </div>
+                        <div class="form-group col-md-4">
+                            {{ form.state.label_tag }} {{ form.state|add_class:"form-control" }}
+                        </div>
+                        <div class="form-group col-md-4">
+                            {{ form.city.label_tag }} {{ form.city|add_class:"form-control" }}
+                        </div>
+                    </div>
+                    <!-- Row 5 -->
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            {{ form.department.label_tag }} {{ form.department|add_class:"form-control" }}
+                        </div>
+                        <div class="form-group col-md-4">
+                            {{ form.occupation.label_tag }} {{ form.occupation|add_class:"form-control" }}
+                        </div>
+                        <div class="form-group col-md-4">
+                            {{ form.role.label_tag }} {{ form.role|add_class:"form-control" }}
+                        </div>
+                    </div>
+                    <!-- Row 6 -->
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            {{ form.pincode.label_tag }} {{ form.pincode|add_class:"form-control" }}
+                        </div>
+                        <div class="form-group col-md-4">
+                            {{ form.address.label_tag }} {{ form.address|add_class:"form-control" }}
+                        </div>
+                        <div class="form-group col-md-4">
+                            {{ form.reportee.label_tag }} {{ form.reportee|add_class:"form-control" }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary mt-3">Create User</button>
+        </form>
+        {% for message in messages %}
+            <div class="alert alert-info mt-3">{{ message }}</div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

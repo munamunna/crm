@@ -89,17 +89,27 @@ WSGI_APPLICATION = 'crmproject.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'crm',
+#         'USER': 'munamunna',
+#         'PASSWORD': 'munamunna123',
+#         'HOST': 'crm.czme6auk89zk.eu-north-1.rds.amazonaws.com',
+#         'PORT': '5432',
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'crm',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'crmdb',
         'USER': 'munamunna',
-        'PASSWORD': 'munamunna123',
-        'HOST': 'crm.czme6auk89zk.eu-north-1.rds.amazonaws.com',
-        'PORT': '5432',
+        'PASSWORD': 'munamunna@123',
+        'HOST': 'localhost',
+        'PORT': '3306',
     }
 }
-
 # settings.py
 TIME_ZONE = 'UTC'
 USE_TZ = True
@@ -152,12 +162,12 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'accounts.CustomUser'
 
-AWS_ACCESS_KEY_ID = 'AKIA5FTZD7B2GPSCA3RF '
-AWS_SECRET_ACCESS_KEY = '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'
-AWS_STORAGE_BUCKET_NAME = 'cbkt'
-AWS_S3_SIGNATURE_NAME = 's3v4',
-AWS_S3_REGION_NAME = 'eu-north-1'
-AWS_S3_FILE_OVERWRITE = False
-AWS_DEFAULT_ACL =  None
-AWS_S3_VERITY = True
-DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+# AWS_ACCESS_KEY_ID = 'AKIA5FTZD7B2GPSCA3RF '
+# AWS_SECRET_ACCESS_KEY = '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'
+# AWS_STORAGE_BUCKET_NAME = 'cbkt'
+# AWS_S3_SIGNATURE_NAME = 's3v4',
+# AWS_S3_REGION_NAME = 'eu-north-1'
+# AWS_S3_FILE_OVERWRITE = False
+# AWS_DEFAULT_ACL =  None
+# AWS_S3_VERITY = True
+# DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'

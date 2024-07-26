@@ -7,14 +7,14 @@ from django.contrib import messages
 
 # Create your views here.
 class GeneralView(TemplateView):
-    template_name="generalsettings.html"
+    template_name="general.html"
 
 # class LeadstagesView(TemplateView):
 #     template_name="leadstages.html"
 
 class LeadstagesView(ListView):
     model=LeadStage
-    template_name="leadstages.html"
+    template_name="leadstagesone.html"
     context_object_name="leadstages"
 
 
@@ -30,4 +30,4 @@ def add_stage(request):
                     LeadStage.objects.create(name=name)
             messages.success(request, 'stage added successfully!')
         return redirect('leadstages-add')  
-    return render(request, 'addleadstage.html')
+    return render(request, 'addleadstageone.html')

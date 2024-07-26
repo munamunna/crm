@@ -1,12 +1,12 @@
 {%extends 'base.html'%}
 
-  
+ 
 {% block content_block %}
-<div class="main-content mt-2">
+<div class="main-content mt-4">
     <button class=" ms-5 btn btn-outline-orange " type="button">All  <br>{{ lead_count }}</button>
         <!-- Display the lead counts for each stage -->
         {% for stage in stages_counts %}
-        <button class="btn btn-outline-orange ms-2" type="button">{{ stage.stages__name }} <br> {{ stage.count }}</button>
+        <button class="btn btn-outline-orange ms-2 " type="button">{{ stage.stages__name }} <br> {{ stage.count }}</button>
     {% endfor %}
     <div class="row">
         <div class="col-md-12">

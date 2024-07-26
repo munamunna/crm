@@ -1,0 +1,43 @@
+{%extends 'base.html'%}
+{%block change_block%}
+<input type="button" class=" nav-link add-user btn custombtn mr-2 ms-2" name="add-user" onclick="window.location.href='/occupations/add';" value="+ Add Occupations">
+{%endblock%}
+{% block content_block %}
+<div class="main-content mt-2">
+    <div class=" mc shadow"> 
+        
+      </div>
+    
+      <div class="card mc ms-5" style="width: 50rem;">
+        
+        <div class="card-body">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Action</th>
+                        <th scope="col">Name</th>
+                        
+                        <th scope="col">Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                  {% for occupation in occupations %}
+                    <tr>
+                        <td>
+                          <a href="#" class="text-danger"><i class="fas fa-trash"></i></a>
+    
+                        </td>
+                        <td>{{occupation.name}}</td>
+                        
+                          
+                      
+                        <td>Active</td>
+                    </tr>
+                    {%endfor%}
+                    <!-- Additional rows as needed -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

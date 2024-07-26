@@ -13,7 +13,7 @@ class DepartmentsView(TemplateView):
 
 class DepartmentsView(ListView):
     model=Department
-    template_name="departments.html"
+    template_name="departmentsone.html"
     context_object_name="departments"
 
 
@@ -29,4 +29,4 @@ def add_department(request):
                     Department.objects.create(name=name)
             messages.success(request, 'Departments added successfully!')
         return redirect('departments-add')  
-    return render(request, 'adddepartments.html')
+    return render(request, 'adddepartmentsone.html')

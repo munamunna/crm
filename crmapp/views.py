@@ -26,6 +26,7 @@ from django.utils import timezone
 
 from .models import Taskactivity,DeletedTask
 from customer.models import complaint_registration 
+from leadstage.models import LeadStage
  
 
 
@@ -42,7 +43,7 @@ class mainDashView(TemplateView):
     template_name = "maindashboard.html"
 
 class DashView(TemplateView):
-    template_name = "dashboard.html"
+    template_name = "dashboardone.html"
 
 class IndexView(TemplateView):
     template_name = "index1.html"
@@ -79,6 +80,67 @@ class IndeView(LoginRequiredMixin, TemplateView):
         context['user_task_count'] = Taskactivity.objects.filter(author=current_user).count()
         
         return context
+
+from django.contrib.auth.decorators import login_required
+from django.utils import timezone
+from datetime import timedelta
+from .models import Lead
+
+@login_required
+def lead_counts_view(request):
+    now = timezone.now()
+
+    # Start of the current day
+    start_of_day = now.replace(hour=0, minute=0, second=0, microsecond=0)
+
+    # Filter leads created by the logged-in user
+    leads_created_by_user = Lead.objects.filter(created_by=request.user)
+
+    # Count leads created today
+    leads_today = leads_created_by_user.filter(created_at__gte=start_of_day, created_at__lte=now).count()
+
+    # Count total number of leads
+    total_leads = leads_created_by_user.count()
+
+    tasks_assigned_to_user = Taskactivity.objects.filter(assigned_to=request.user)
+
+    # Count total tasks assigned
+    total_tasks_assigned = tasks_assigned_to_user.count()
+
+       # Count overdue tasks
+    overdue_tasks = tasks_assigned_to_user.filter(due_date__lt=now, status__in=['incomplete', 'inprogress']).count()
+
+    # Count completed tasks
+    completed_tasks = tasks_assigned_to_user.filter(status='completed').count()
+
+    # Count pending tasks
+    pending_tasks = tasks_assigned_to_user.filter(status__in=['incomplete', 'inprogress']).count()
+
+    # Count leads by stage
+    stage_counts = {}
+    stages = LeadStage.objects.all()
+    for stage in stages:
+        stage_counts[stage.name] = leads_created_by_user.filter(stages=stage).count()
+
+    
+
+    
+    context = {
+        'leads_today': leads_today,
+        'leads_this_week': leads_created_by_user.filter(created_at__gte=now - timedelta(days=now.weekday())).count(),
+        'leads_this_month': leads_created_by_user.filter(created_at__gte=now.replace(day=1)).count(),
+        'total_leads': total_leads,
+        'total_tasks_assigned': total_tasks_assigned,
+        'overdue_tasks': overdue_tasks,
+        'completed_tasks': completed_tasks,
+        'pending_tasks': pending_tasks,
+        'stage_counts': stage_counts,
+        
+    }
+
+    return render(request, 'dashboardone.html', context)
+
+
 
 
         

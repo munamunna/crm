@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lead Counts</title>
+    <style>
+        ul {
+            list-style: none; /* Remove default bullets */
+            padding: 0;
+        }
+        li {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .box {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+            border-radius: 3px;
+        }
+        .stage1 { background-color: #007bff; } /* Blue */
+        .stage2 { background-color: #28a745; } /* Green */
+        .stage3 { background-color: #dc3545; } /* Red */
+        .stage4 { background-color: #ffc107; } /* Yellow */
+        .stage5 { background-color: #6f42c1; } /* Purple */
+        .stage6 { background-color: #17a2b8; } /* Teal */
+        .stage7 { background-color: #b7eb34; } /* Teal */
+        .stage-default { background-color: #6c757d; } /* Default color */
+
+        .task-total { color: #007bff; } /* Blue */
+        .task-overdue { color: #dc3545; } /* Red */
+        .task-completed { color: #28a745; } /* Green */
+        .task-pending { color: #ffc107; } /* Yellow */
+        
+
+    </style>
+</head>
+<body>
+    <h1>Lead Counts</h1>
+    <p>Leads Created Today: {{ leads_today }}</p>
+    <p>Leads Created This Week: {{ leads_this_week }}</p>
+    <p>Leads Created This Month: {{ leads_this_month }}</p>
+    <p>Leads Total: {{ total_leads }}</p>
+
+    <h1>Task Counts</h1>
+    <p class="task-total">Total Tasks Assigned: {{ total_tasks_assigned }}</p>
+    <p class="task-overdue">Overdue Tasks: {{ overdue_tasks }}</p>
+    <p class="task-completed">Completed Tasks: {{ completed_tasks }}</p>
+    <p class="task-pending">Pending Tasks: {{ pending_tasks }}</p>
+
+    <h2 class="my-4">Lead Counts by Stage</h2>
+    <ul>
+        {% for stage, count in stage_counts.items %}
+            {% if stage == 'Contacted' %}
+                <li>
+                    <div class="box stage1"></div>
+                    {{ stage }}: {{ count }}
+                </li>
+            {% elif stage == 'Proposed' %}
+                <li>
+                    <div class="box stage2"></div>
+                    {{ stage }}: {{ count }}
+                </li>
+            {% elif stage == 'Interested' %}
+                <li>
+                    <div class="box stage3"></div>
+                    {{ stage }}: {{ count }}
+                </li>
+            {% elif stage == 'convert' %}
+                <li>
+                    <div class="box stage4"></div>
+                    {{ stage }}: {{ count }}
+                </li>
+                {% elif stage == 'New' %}
+                <li>
+                    <div class="box stage7"></div>
+                    {{ stage }}: {{ count }}
+                </li>
+            {% elif stage == 'Won' %}
+                <li>
+                    <div class="box stage5"></div>
+                    {{ stage }}: {{ count }}
+                </li>
+            {% elif stage == 'Lost' %}
+                <li>
+                    <div class="box stage6"></div>
+                    {{ stage }}: {{ count }}
+                </li>
+            {% else %}
+                <li>
+                    <div class="box stage-default"></div>
+                    {{ stage }}: {{ count }}
+                </li>
+            {% endif %}
+        {% empty %}
+            <li>
+                <div class="box stage-default"></div>
+                No stages found.
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

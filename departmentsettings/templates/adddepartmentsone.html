@@ -1,0 +1,66 @@
+{% extends 'base.html'%}
+{%block change_block%}
+<a href="{%url 'departments'%}" class="btn btn-warning" type="submit">previuos</a>    
+                    {%endblock%}
+{% block content_block %}
+<div class="main-content mt-2">
+    <div class="mc shadow task-list"> 
+        <div class="card ms-4" style="width: 60rem;">
+            <div class="card-body">
+                <h2 class="text-center">Department List</h2>
+                {% if messages %}
+                <div class="alert alert-success" role="alert">
+                    {% for message in messages %}
+                        {{ message }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+                <form action="" method="post">
+                    {% csrf_token %}
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" id="taskInput" placeholder="Add a new Department">
+                        <button class="btn btn-success" type="button" id="addTaskButton">Add Department</button>
+                    </div>
+                    <ul class="list-group" id="taskList">
+                        <!-- Tasks will be added here dynamically -->
+                    </ul>
+                    <!-- Hidden input to store the stages as a JSON array -->
+                    <input type="hidden" name="stages" id="stagesInput">
+                    <button class="btn btn-success" type="submit">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div> 
+           
+</div>
+{% endblock %}
+
+{%block js_block%}
+
+<script>
+    document.getElementById('addTaskButton').addEventListener('click', function() {
+        const taskInput = document.getElementById('taskInput');
+        const taskList = document.getElementById('taskList');
+        const newTask = taskInput.value.trim();
+        
+        if (newTask !== '') {
+            const listItem = document.createElement('li');
+            listItem.className = 'list-group-item';
+            listItem.textContent = newTask;
+            taskList.appendChild(listItem);
+            taskInput.value = '';
+
+            updateHiddenInput();
+        }
+    });
+
+    function updateHiddenInput() {
+        const taskList = document.getElementById('taskList');
+        const stages = [];
+        taskList.querySelectorAll('li').forEach(item => {
+            stages.push(item.textContent);
+        });
+        document.getElementById('stagesInput').value = JSON.stringify(stages);
+    }
+</script>
+    {%endblock%}

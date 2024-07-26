@@ -1,0 +1,83 @@
+{%extends 'base.html'%}
+{%block change_block%}
+                   
+                    {%endblock%}
+                    {%block link_block%}
+                    <style>
+                        .ornglink{
+                            color: orange;
+                        }
+                    </style>
+                    {%endblock%}
+
+                    {% block content_block %}
+                    <div class="main-content mt-2">
+                        <div class="row">
+                            <!-- Card 1 -->
+                            <div class="col-md-3 mb-4 ms-5">
+                              <div class="card" style="width: 18rem;">
+                               
+                                <div class="card-body">
+                                  <h5 class="card-title">Role</h5>
+                                  <p class="card-text">Manage your general settings and preference.</p>
+                                  <a href="{% url 'roles' %}" class="ornglink">Role Settings</a>
+                                </div>
+                              </div>
+                            </div>
+                            <!-- Repeat for more cards -->
+                            <div class="col-md-3 mb-4 ms-5">
+                                <div class="card" style="width: 18rem;">
+                                 
+                                  <div class="card-body">
+                                    <h5 class="card-title">Departments</h5>
+                                    <p class="card-text">Manage your general settings and preference.</p>
+                                    <a href="{% url 'departments' %}" class="ornglink">Departments Settings</a>
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="col-md-3 mb-4 ms-5">
+                                <div class="card" style="width: 18rem;">
+                                 
+                                  <div class="card-body">
+                                    <h5 class="card-title">Occupation</h5>
+                                    <p class="card-text">Manage your general settings and preference.</p>
+                                    <a href="{% url 'occupations' %}" class="ornglink">Occupation Settings</a>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-md-3 mb-4 ms-5">
+                                <div class="card" style="width: 18rem;">
+                                 
+                                  <div class="card-body">
+                                    <h5 class="card-title">User</h5>
+                                    <p class="card-text">Manage your general settings and preference.</p>
+                                    <a href="{% url 'users' %}" class="ornglink">User Settings</a>
+                                  </div>
+                                </div>
+                              </div>
+                            <div class="col-md-3 mb-4 ms-5">
+                              
+                                <div class="card" style="width: 18rem;">
+                                <div class="card-body">
+                                  <h5 class="card-title">Account</h5>
+                                  <p class="card-text">Manage your login credential settings and preference.</p>
+                                  <a href="#" class=" ornglink">Account settings</a>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-md-3 mb-4 ms-5">
+                              <div class="card" style="width: 18rem;">
+                                
+                                <div class="card-body">
+                                  <h5 class="card-title">Lead</h5>
+                                  <p class="card-text">configure source gvhjbjjnkj gfghgjh gghvhbjn.</p>
+                                  <a href="{% url 'leadstages' %}" class="ornglink">Lead Settings</a>
+                                </div>
+                              </div>
+                            </div>
+                        
+                          </div>
+                    </div>
+
+                    {% endblock %}
