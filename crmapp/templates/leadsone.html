@@ -76,9 +76,11 @@
                             </td>
                             
                             <td>
-                                <a href="#" class="add-task" data-bs-toggle="modal" data-bs-target="#addTaskModal"><i class="fas fa-tasks" title="Add Task"></i></a>
+                                <a href="#" class="add-task" data-bs-toggle="modal" data-bs-target="#addTaskModal-{{ lead.id }}"><i class="fas fa-tasks" title="Add Task"></i></a>
+                                
                                 <!-- Add Task Modal -->
-<div class="modal fade" id="addTaskModal" tabindex="-1" aria-labelledby="addTaskModalLabel" aria-hidden="true">
+<!-- <div class="modal fade" id="addTaskModal" tabindex="-1" aria-labelledby="addTaskModalLabel" aria-hidden="true"> -->
+    <div class="modal fade" id="addTaskModal-{{ lead.id }}" tabindex="-1" aria-labelledby="addTaskModalLabel-{{ lead.id }}" aria-hidden="true">
 <div class="modal-dialog">
     <div class="modal-content">
         <div class="modal-header">
