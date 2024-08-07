@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-2f&)f#eg4_4qc+2hq66ii5=&(t*pl2alnnv2!^fn8gwnztrgt1'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -89,27 +89,27 @@ WSGI_APPLICATION = 'crmproject.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'crm',
-        'USER': 'munamunna',
-        'PASSWORD': 'munamunna123',
-        'HOST': 'crm.czme6auk89zk.eu-north-1.rds.amazonaws.com',
-        'PORT': '5432',
-    }
-}
-
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'crmdb',
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'crm',
 #         'USER': 'munamunna',
-#         'PASSWORD': 'munamunna@123',
-#         'HOST': 'localhost',
-#         'PORT': '3306',
+#         'PASSWORD': 'munamunna123',
+#         'HOST': 'crm.czme6auk89zk.eu-north-1.rds.amazonaws.com',
+#         'PORT': '5432',
 #     }
 # }
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'crmdb',
+        'USER': 'munamunna',
+        'PASSWORD': 'munamunna@123',
+        'HOST': 'localhost',
+        'PORT': '3306',
+    }
+}
 # settings.py
 TIME_ZONE = 'UTC'
 USE_TZ = True

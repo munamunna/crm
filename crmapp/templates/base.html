@@ -140,12 +140,13 @@
                 </li>
                 
                 <li class="nav-item">
-                    
+                    {%block change_srchblock%}
                     <form class="d-flex" action="" method="get">
                         <i class="material-icons star-icon me-2 orng-icon" data-bs-toggle="tooltip" title="Favorite">&#xE838;</i>
                         <input clnav-linkass="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="q" value="{{ request.GET.q }}">
                         <button class=" nav-link btn btn-outline-orange" type="submit">Search</button>
                       </form>
+                      {%endblock%}
                 </li>
                 {% if user.is_authenticated %}
                 <li> 
@@ -166,10 +167,14 @@
             
             <a class="nav-link" href="{% url 'clist' %}"><i class="bi bi-bullseye"></i><span>Customers</span></a>
             <a class="nav-link" href="{% url 'assigned_complaints' %}"><i class="bi bi-handbag"></i><span>complaints</span></a>
+            <a class="nav-link" href="{% url 'complaintlist' %}">
+                <i class="bi bi-inbox"></i><span>All complaints</span>
+            </a>
             
-            <a class="nav-link" href="#"><i class="bi bi-repeat"></i><span>Follow up</span></a>
+            
+            <a class="nav-link" href="{% url 'follow_up_list' %}"><i class="bi bi-repeat"></i><span>Follow up</span></a>
 
-            <a class="nav-link" href="#"><i class="bi bi-activity"></i><span>Activities</span></a>
+            <a class="nav-link" href="{% url 'activities' %}"><i class="bi bi-activity"></i><span>Activities</span></a>
             <a class="nav-link" href="{% url 'calendar_view' %}"><i class="bi bi-calendar"></i><span>Calendar</span></a>
             <a class="nav-link " href="{% url 'generalsettings' %}" >
                 <i class="bi bi-gear"></i><span>Settings</span>

@@ -1,0 +1,104 @@
+{%extends 'base.html'%}
+
+{%block change_block%}
+                   
+                    {%endblock%}
+
+                    {%block change_srchblock%}
+                    <form class="d-flex mb-4" method="get">
+                        <input class="form-control me-2" type="date" placeholder="Start Date" aria-label="Start Date" name="start_date" value="{{ request.GET.start_date }}">
+                        <input class="form-control me-2" type="date" placeholder="End Date" aria-label="End Date" name="end_date" value="{{ request.GET.end_date }}">
+                        <button class="btn btn-outline-orange" type="submit">Search</button>
+                    </form>
+                      {%endblock%}
+                    {%block link_block%}
+                    <style>
+                        .timelinesec .heading h1{
+                   /* color:black; */
+                   font-size: 15px;
+                   font-weight: 500;
+               }
+               .text-muted {
+                   color: #6c757d !important;
+               }
+                
+               .timelinesec .content .elements .verticalline{
+                   border-left: 1px solid #a1a1a1;
+                   height: 50px;
+                   margin-left: 12px;
+                   margin-right: 12px;
+               }
+               .timelinesec .content .badgeline{
+                   border-radius: 100%;
+                   border:2px solid #14ceca ;
+                   height: 25px;
+                   width: 25px;
+               }
+               .timelinesec .content .card{
+                   /* background-color: #1a1a1a; */
+                   margin-left:-50px ;
+                   margin-top: 10px;
+                   margin-bottom: 10px;
+               }
+               .timelinesec .content .card .card-body h5{
+                   color: #14ceca ;
+                   font-size: 15px;
+               
+               }
+               .timelinesec .content .card .card-body h4{
+                   font-size: 15px;
+                   color: #fafafa;
+               }
+               .timelinesec .content .card .card-body p{
+                   color: #6c756c;
+                   font-size: 16px;
+                   margin-top: 3px;
+               }
+                   </style>
+                    {%endblock%}
+
+                    {% block content_block %}
+                    <div class="main-content mt-2">
+
+       
+
+                          <!-- Timeline -->
+<div class="container timelinesec">
+    <div class="row heading">
+        <div class="col-lg-12">
+            <h1 class="text-muted mt-2 ms-5">  Activities</h1>
+        </div>
+    </div>
+      
+    <!-- timeline1 -->
+    {% for task in task_activities %}
+    <div class="row content mt-2">
+        <div class="col-lg-1 elements">
+            <div class="verticalline"></div>
+            <div class="badgeline mt-2  mb-2"></div>
+            <div class="verticalline"></div>
+        </div>
+        <div class="col-11">
+            <div class="card shadow">
+                <div class="card-body">
+                    <div class="card-body">
+                        <div class="task-details">
+                            <h5>{{ task.task_title }}</h5>
+                            <p>{{ task.task_description }}</p>
+                            <span>{{ task.date_created|date:"F j, Y, g:i a" }}</span>
+                            <span>{{ task.date_created|timesince }} ago</span>
+                            <h4 class="text-dark">{{ task.author.first_name }}</h4>
+                        </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    {%endfor%}
+    <!-- timeline1 end -->
+  
+    
+  </div>
+  <!-- end Timeline-->
+                        </div>
+                    {% endblock %}

@@ -209,3 +209,15 @@ class ClockIn(models.Model):
 
     def __str__(self):
         return f"{self.user} clocked in at {self.clock_in_time} and clocked out at {self.clock_out_time}"
+
+
+class FollowUp(models.Model):
+    lead = models.ForeignKey(Lead, on_delete=models.CASCADE)
+    task = models.ForeignKey(Taskactivity, on_delete=models.CASCADE, null=True, blank=True)
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE,null=True,blank=True)
+    follow_up_date = models.DateTimeField()
+    status = models.CharField(max_length=50, choices=[('Pending', 'Pending'), ('Completed', 'Completed')])
+    notes = models.TextField(blank=True)
+
+    def __str__(self):
+        return f"Follow-up for {self.lead.company_name} by {self.user.username} on {self.follow_up_date}"

@@ -201,3 +201,23 @@ class MonthYearForm(forms.Form):
     month = forms.ChoiceField(choices=MONTH_CHOICES, label="Month", initial=datetime.datetime.now().month, widget=forms.Select(attrs={'class': 'form-control'}))
 
 
+
+
+# forms.py
+# forms.py
+from django import forms
+from .models import FollowUp
+
+class FollowUpForm(forms.ModelForm):
+    class Meta:
+        model = FollowUp
+        fields = ['lead', 'task', 'follow_up_date', 'status', 'notes']
+        widgets = {
+            'follow_up_date': forms.DateTimeInput(attrs={'type': 'datetime-local', 'class': 'form-control'}),
+            'lead': forms.Select(attrs={'class': 'form-control'}),
+            'task': forms.Select(attrs={'class': 'form-control'}),
+            'status': forms.Select(attrs={'class': 'form-control'}),
+            'notes': forms.Textarea(attrs={'class': 'form-control', 'rows': 4}),
+        }
+
+

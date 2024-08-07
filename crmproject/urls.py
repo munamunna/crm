@@ -45,6 +45,7 @@ urlpatterns = [
     path('appointments/all/',views.AppointmentListView.as_view(),name="appointmentlist"),
     path('lead/<int:pk>/change', views.LeadEditView.as_view(), name='lead_edit'),
     path('lead/<int:pk>/', views.LeadDetailView.as_view(), name='lead_detail'),
+    path('activities/', views.ActivityView.as_view(), name='activities'),
     path('dtasks/all/',views.DeletedTaskListView.as_view(),name="dtasklist"),
     path('start-task/<int:pk>/', views.start_task_view, name='start-task'),
     path('complete-task/<int:pk>/', views.complete_task_view, name='complete-task'),
@@ -60,6 +61,9 @@ urlpatterns = [
     
     path('customer_employee/<int:customer_id>/', cviews.CustomerEmployeeDetailView.as_view(), name='customer_detail'),
     path('employee_customer/<int:employee_id>/', eviews.EmployeeCustomerDetailView.as_view(), name='employee_detail'),
+    path('follow-ups/', views.follow_up_list, name='follow_up_list'),
+    path('follow-ups/add/', views.follow_up_create, name='follow_up_create'),
+    path('follow-ups/<int:pk>/edit/', views.follow_up_update, name='follow_up_update'),
     
     path('',include('tasksettings.urls')),
     path('',include('leadstage.urls')),

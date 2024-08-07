@@ -1,0 +1,43 @@
+<!-- templates/follow_up_list.html -->
+{% extends 'base.html' %}
+
+{%block change_block%}
+<input type="button" class=" nav-link add-user btn custombtn mr-2 ms-2" name="add-user" onclick="window.location.href='/follow-ups/add/';" value="+ Add New Follow-Up">   
+                    {%endblock%}
+
+{% block content_block %}
+<div class="main-content mt-2">
+   <div class="container">
+    <div class="table-responsive">
+        <table class="table table-striped" >
+            <thead>
+                <tr>
+                    <th>Lead</th>
+                    <th>Task</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                    <th>Notes</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for follow_up in follow_ups %}
+                <tr>
+                    <td>{{ follow_up.lead.company_name }}</td>
+                    <td>{{ follow_up.task.task_description }}</td>
+                    <td>{{ follow_up.follow_up_date }}</td>
+                    <td>{{ follow_up.status }}</td>
+                    <td>{{ follow_up.notes }}</td>
+                    <td>
+                        <a href="{% url 'follow_up_update' follow_up.pk %}">Edit</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+   </div>
+    
+</div>
+{% endblock %}

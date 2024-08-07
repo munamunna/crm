@@ -521,6 +521,48 @@ class LeadDetailView(DetailView):
 
 
 
+from django.utils import timezone
+from django.views.generic import TemplateView
+from .models import Taskactivity, Employee
+
+class ActivityView(TemplateView):
+    template_name = "activity.html"
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['employees'] = Employee.objects.all()
+        
+        # Get start_date and end_date from GET parameters
+        start_date_str = self.request.GET.get('start_date')
+        end_date_str = self.request.GET.get('end_date')
+        
+        # Convert string dates to datetime.date if provided
+        start_date = timezone.datetime.strptime(start_date_str, '%Y-%m-%d').date() if start_date_str else None
+        end_date = timezone.datetime.strptime(end_date_str, '%Y-%m-%d').date() if end_date_str else None
+        
+        # Filter tasks based on date range
+        if start_date and end_date:
+            context['task_activities'] = Taskactivity.objects.filter(
+                author=self.request.user,
+                date_created__range=[start_date, end_date]
+            )
+        elif start_date:
+            context['task_activities'] = Taskactivity.objects.filter(
+                author=self.request.user,
+                date_created__gte=start_date
+            )
+        elif end_date:
+            context['task_activities'] = Taskactivity.objects.filter(
+                author=self.request.user,
+                date_created__lte=end_date
+            )
+        else:
+            context['task_activities'] = Taskactivity.objects.filter(author=self.request.user)
+        
+        return context
+
+
+
 
 
 
@@ -772,6 +814,39 @@ def user_presence(request):
     }
 
     return render(request, 'user_presence.html', context)
+
+
+# views.py
+from django.shortcuts import render, get_object_or_404, redirect
+from .models import FollowUp
+from .forms import FollowUpForm
+
+def follow_up_list(request):
+    follow_ups = FollowUp.objects.filter(user=request.user).order_by('-follow_up_date')
+    return render(request, 'follow_up_list.html', {'follow_ups': follow_ups})
+
+def follow_up_create(request):
+    if request.method == 'POST':
+        form = FollowUpForm(request.POST)
+        if form.is_valid():
+            follow_up = form.save(commit=False)
+            follow_up.user = request.user
+            follow_up.save()
+            return redirect('follow_up_list')
+    else:
+        form = FollowUpForm()
+    return render(request, 'follow_up_form.html', {'form': form})
+
+def follow_up_update(request, pk):
+    follow_up = get_object_or_404(FollowUp, pk=pk)
+    if request.method == 'POST':
+        form = FollowUpForm(request.POST, instance=follow_up)
+        if form.is_valid():
+            form.save()
+            return redirect('follow_up_list')
+    else:
+        form = FollowUpForm(instance=follow_up)
+    return render(request, 'follow_up_form.html', {'form': form})
 
 
 

@@ -130,6 +130,7 @@ class CustomerEmployeeDetailView(TemplateView):
         customer_id = self.kwargs.get('customer_id')
         if customer_id:
             context['customer'] = Customer.objects.get(id=customer_id)
+            context['users'] = CustomUser.objects.all()
         return context
 
     def post(self, request, *args, **kwargs):
