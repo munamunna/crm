@@ -110,7 +110,7 @@ DATABASES = {
 #         'PORT': '3306',
 #     }
 # }
-# settings.py
+
 TIME_ZONE = 'UTC'
 USE_TZ = True
 
