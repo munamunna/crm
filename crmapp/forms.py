@@ -3,7 +3,7 @@ from .models import company_details, contact_details, bussiness_details,Taskacti
 from .models import Country, State, City,Designation,Source ,IndustryType
 
 from .models import Lead
-from employee.models import Employee
+
 from leadstage.models import LeadStage
 from accounts.models import CustomUser
 
@@ -123,11 +123,11 @@ class BusinessDetailsForm(forms.ModelForm):
         # Set the label for executive_name field to show the first_name
         self.fields['executive_name'].label_from_instance = lambda obj: obj.first_name
         # Set default initial value for stages field
-        try:
-            new_stage = LeadStage.objects.get(name="new")
-            self.fields['stages'].initial = new_stage
-        except LeadStage.DoesNotExist:
-            pass
+        # try:
+        #     new_stage = LeadStage.objects.get(name="new")
+        #     self.fields['stages'].initial = new_stage
+        # except LeadStage.DoesNotExist:
+        #     pass
 
 
 class LeadChangeForm(forms.ModelForm):

@@ -3,10 +3,10 @@ from django.contrib.auth import get_user_model
 # Create your models here.
 from django.db import models
 from crmapp.models import Country, State, City
-from employee.models import Employee
+
 from django.utils import timezone
 from ticket.models import Ticketss
-from accounts.models import CustomUser
+
 
 from django.conf import settings
 
@@ -20,7 +20,7 @@ class Customer(models.Model):
     country = models.ForeignKey(Country, on_delete=models.CASCADE, blank=True, null=True)
     state = models.ForeignKey(State, on_delete=models.CASCADE, blank=True, null=True)
     city = models.ForeignKey(City, on_delete=models.CASCADE, blank=True, null=True)
-    executive_name = models.ForeignKey(Employee,on_delete=models.CASCADE, blank=True, null=True)
+    executive_name = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, blank=True, null=True, related_name='executive_customers')  # Added related_name
     exe_designation = models.CharField(max_length=40, blank=True, null=True)
     source = models.CharField(max_length=40, blank=True, null=True)
     product = models.CharField(max_length=40, blank=True, null=True)
@@ -62,7 +62,7 @@ class complaint_registration(models.Model):
     complaint=models.TextField(blank=True, null=True)
     registration_number = models.CharField(max_length=20, unique=True, null=True, blank=True)
     
-    assign_to = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True )
+    assign_to = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, null=True, blank=True )
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='open')
     priority = models.CharField(max_length=10, choices=PRIORITY_CHOICES, default='medium')
    
@@ -79,7 +79,7 @@ class ComplaintRemark(models.Model):
     complaint = models.ForeignKey(complaint_registration, on_delete=models.CASCADE, related_name='remarks')
     remark = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
-    author = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    author = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
 
     def __str__(self):
         return f"Remark on {self.complaint.title}: {self.remark}"

@@ -1,9 +1,10 @@
+
 from django.db import models
 from django.contrib.auth import get_user_model
 from django.conf import settings
 from django.utils import timezone
 
-from employee.models import Employee
+
 from leadstage.models import LeadStage
  
 # Create your models here.
@@ -135,15 +136,15 @@ class Taskactivity(models.Model):
 
     author = models.ForeignKey(
         get_user_model(), 
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,null=True
     )
     date_created = models.DateTimeField(default=timezone.now) 
     task_title = models.CharField(max_length=30)
-    assigned_to = models.ForeignKey(
-        get_user_model(), 
-        on_delete=models.CASCADE,
-        related_name='assigned_tasks'
-    )
+    # assigned_to = models.ForeignKey(
+    #     get_user_model(), 
+    #     on_delete=models.CASCADE,
+    #     related_name='assigned_tasks'
+    # )
     related_to = models.ForeignKey(Lead, on_delete=models.CASCADE)
     due_date = models.DateTimeField()
     priorty = models.CharField(max_length=10, choices=PRIORITY_CHOICES)
@@ -164,13 +165,13 @@ class DeletedTask(models.Model):
         ('high', 'High'),
     ]
 
-    author = models.ForeignKey(
-        get_user_model(), 
-        on_delete=models.CASCADE
-    ,blank=True, null=True)
+    # author = models.ForeignKey(
+    #     get_user_model(), 
+    #     on_delete=models.CASCADE
+    # ,blank=True, null=True)
     date_created = models.DateTimeField(default=timezone.now) 
     task_title = models.CharField(max_length=30)
-    assigned_to = models.ForeignKey(Employee, on_delete=models.CASCADE)
+    # assigned_to = models.ForeignKey(Employee, on_delete=models.CASCADE)
     related_to = models.ForeignKey(Lead, on_delete=models.CASCADE)
     due_date = models.DateTimeField()
     priorty = models.CharField(max_length=10, choices=PRIORITY_CHOICES)
@@ -196,14 +197,14 @@ class AppointmentActivity(models.Model):
     to_date_time = models.DateTimeField()
     location = models.CharField(max_length=255)
     related_to = models.CharField(max_length=255, blank=True, null=True)
-    attendees = models.ForeignKey(Employee, on_delete=models.CASCADE)
+    # attendees = models.ForeignKey(Employee, on_delete=models.CASCADE)
 
     def __str__(self):
         return f"{self.appointment_type} on {self.from_date_time} at {self.location}"
 
 
 class ClockIn(models.Model):
-    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
+    # user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     clock_in_time = models.DateTimeField(auto_now_add=True)
     clock_out_time = models.DateTimeField(null=True, blank=True)
 
@@ -214,7 +215,7 @@ class ClockIn(models.Model):
 class FollowUp(models.Model):
     lead = models.ForeignKey(Lead, on_delete=models.CASCADE)
     task = models.ForeignKey(Taskactivity, on_delete=models.CASCADE, null=True, blank=True)
-    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE,null=True,blank=True)
+    # user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE,null=True,blank=True)
     follow_up_date = models.DateTimeField()
     status = models.CharField(max_length=50, choices=[('Pending', 'Pending'), ('Completed', 'Completed')])
     notes = models.TextField(blank=True)

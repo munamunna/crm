@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.urls import path,include
 from crmapp import views
 from customer import views as cviews
-from employee import views as eviews
+
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -57,10 +57,10 @@ urlpatterns = [
      path('assigned-complaints/',cviews. AssignedComplaintsListView.as_view(), name='assigned_complaints'),
     path('complaints/<int:pk>/change', cviews.ComplaintEditView.as_view(), name='complaint_edit'),
     path('complaints/<int:complaint_id>/add_remark/', cviews.add_remark, name='add_remark'),
-    path('employees/all/',eviews.EmployeeListView.as_view(),name="elist"),
+    # path('employees/all/',eviews.EmployeeListView.as_view(),name="elist"),
     
     path('customer_employee/<int:customer_id>/', cviews.CustomerEmployeeDetailView.as_view(), name='customer_detail'),
-    path('employee_customer/<int:employee_id>/', eviews.EmployeeCustomerDetailView.as_view(), name='employee_detail'),
+    # path('employee_customer/<int:employee_id>/', eviews.EmployeeCustomerDetailView.as_view(), name='employee_detail'),
     path('follow-ups/', views.follow_up_list, name='follow_up_list'),
     path('follow-ups/add/', views.follow_up_create, name='follow_up_create'),
     path('follow-ups/<int:pk>/edit/', views.follow_up_update, name='follow_up_update'),

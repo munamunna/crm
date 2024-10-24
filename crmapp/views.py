@@ -4,12 +4,12 @@ from django.views.generic import View,FormView,TemplateView,UpdateView,ListView,
 from .forms import  CompanyDetailsForm, ContactDetailsForm, BusinessDetailsForm,LeadChangeForm,TaskActivityForm
 from .models import contact_details,bussiness_details,company_details,Taskactivity
 from django.utils.decorators import method_decorator
-from employee.models import Employee
+
 from django.db import connection
 from django.db.models import Q
 from django.db.models import Count
 
-from .models import contact_details, bussiness_details, company_details,Lead,Employee, AppointmentActivity
+from .models import contact_details, bussiness_details, company_details,Lead, AppointmentActivity
 from accounts.models import CustomUser
 from django.shortcuts import get_object_or_404, redirect
 from customer.models import Customer
@@ -117,10 +117,10 @@ def lead_counts_view(request):
     pending_tasks = tasks_assigned_to_user.filter(status__in=['incomplete', 'inprogress']).count()
 
     # Count leads by stage
-    stage_counts = {}
-    stages = LeadStage.objects.all()
-    for stage in stages:
-        stage_counts[stage.name] = leads_created_by_user.filter(stages=stage).count()
+    # stage_counts = {}
+    # stages = LeadStage.objects.all()
+    # for stage in stages:
+    #     stage_counts[stage.name] = leads_created_by_user.filter(stages=stage).count()
 
     
 
@@ -465,7 +465,7 @@ class LeadDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['employees'] = Employee.objects.all()
+        context['employees'] = CustomUser.objects.all()
         # Add related TaskActivity objects to the context
         context['task_activities'] = Taskactivity.objects.filter(related_to=self.object)
         
@@ -483,7 +483,7 @@ class LeadDetailView(DetailView):
             attachment = request.FILES.get('attachment')
 
             related_to = get_object_or_404(Lead, pk=related_to_id)
-            assigned_to = get_object_or_404(Employee, pk=assigned_to_id)
+            assigned_to = get_object_or_404(CustomUser, pk=assigned_to_id)
 
             Taskactivity.objects.create(
                 related_to=related_to,
@@ -505,7 +505,7 @@ class LeadDetailView(DetailView):
             location = request.POST.get('location')
             assigned_to_id = request.POST.get('assigned_to')
 
-            attendees = get_object_or_404(Employee, pk=assigned_to_id)
+            attendees = get_object_or_404(CustomUser, pk=assigned_to_id)
 
             AppointmentActivity.objects.create(
                 appointment_type=appointment_type,
@@ -523,14 +523,14 @@ class LeadDetailView(DetailView):
 
 from django.utils import timezone
 from django.views.generic import TemplateView
-from .models import Taskactivity, Employee
+from .models import Taskactivity
 
 class ActivityView(TemplateView):
     template_name = "activity.html"
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['employees'] = Employee.objects.all()
+        context['employees'] = CustomUser.objects.all()
         
         # Get start_date and end_date from GET parameters
         start_date_str = self.request.GET.get('start_date')

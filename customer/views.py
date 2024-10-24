@@ -2,7 +2,7 @@ from django.shortcuts import render,redirect
 from django.views.generic import ListView,DetailView,TemplateView,UpdateView
 from .models import Customer,complaint_registration
 from .forms import ComplaintRegistrationForm,CustomerChangeForm,ComplaintChangeForm
-from employee.models import Employee
+
 from django.contrib import messages
 from django.urls import reverse_lazy
 import uuid

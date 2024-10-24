@@ -4,7 +4,7 @@ from crmapp.models import State,City,Country
 from departmentsettings.models import Department
 from occupationsettings.models import Occupation
 from rolesettings.models import Role
-from employee.models import Employee
+
 
 
 class UserType(models.Model):
